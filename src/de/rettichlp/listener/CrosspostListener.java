@@ -8,6 +8,7 @@ public class CrosspostListener extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
+		
 		if(event.isFromType(ChannelType.TEXT)) {
 			if (event.getChannel().getId().equalsIgnoreCase("625094112068108299")) { //Mitteilungen
 				event.getMessage().crosspost().queue();
