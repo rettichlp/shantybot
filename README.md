@@ -1,9 +1,13 @@
 # shantybot
 Discord Bot für ShantyTown.eu
 
-Download: [2.13](https://drive.google.com/file/d/1B_iemxBjwARe6D9089LRdZhQbWx_sw-_/view?usp=sharing)
+### [2.13.1](https://drive.google.com/file/d/1FyffT9V5cRR_0cQegZvfYxyoPjlJZs23/view?usp=sharing)
+- Behebnung von Rechtschreibfehlern
+- Anpassung des AutoResponseSystems
+- Feature bei @ShantyBot Erwähnung eingebaut
+- Verstecktes Feature eingebaut
 
-### 2.13
+### [2.13](https://drive.google.com/file/d/1B_iemxBjwARe6D9089LRdZhQbWx_sw-_/view?usp=sharing)
 - Crosspost von Nachrichten im Announcement-Kanal
 ### 2.12-U
 - Ticketsystem deaktiviert
