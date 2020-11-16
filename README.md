@@ -5,7 +5,6 @@ Discord Bot für ShantyTown.eu
 - Behebnung von Rechtschreibfehlern
 - Anpassung des AutoResponseSystems
 - Feature bei @ShantyBot Erwähnung eingebaut
-- Verstecktes Feature eingebaut
 
 ### [2.13](https://drive.google.com/file/d/1B_iemxBjwARe6D9089LRdZhQbWx_sw-_/view?usp=sharing)
 - Crosspost von Nachrichten im Announcement-Kanal
