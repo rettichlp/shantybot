@@ -1,7 +1,9 @@
 package de.rettichlp.listener;
 
+import java.awt.Color;
 import java.util.Random;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -51,24 +53,31 @@ public class HelpListener extends ListenerAdapter {
 				channel.sendMessage("Du willst wissen, was Spender sind? **Am Spawn** gibt es ein Portal, in dem du **alle Informationen** dazu findest!").queue();
 			}
 			//Bot Spaß
-			if (message.contains("wie ") && message.contains("alt")) {
-				channel.sendMessage("Ab einem bestimmten Alter sollte man nicht mehr darüber reden...").queue();
-			} else if (message.contains("mega nice")) {
+			if (message.contains("mega nice")) {
 				channel.sendMessage("Ich weiß, ich bin immer der beste unter euch " + event.getGuild().getEmotesByName("scu", true).get(0).getAsMention()).queue();
 			} else if (message.contains("witz")) {
 				Random rand = new Random();
 				int i = rand.nextInt(witz.length);
 				channel.sendMessage("Ja ein Witz! \n" + witz[i]).queue();
-			} else if (message.contains("fakt")) {
-				channel.sendMessage("Du willst einen krassen Fakt hören? 'Dreh mal am Herd' ergibt rückwärts genau das selbe!").queue();
 			} else if (message.contains("saufen")) {
 				channel.sendMessage("Trink niemals zuviel, denn die nächste Flasche, die draufgeht, könntest du sein!").queue();
 			}
 			//Server
-			if (message.contains("ip ") || message.contains("ip?")) {
+			if (message.contains("server") && message.contains("ip")) {
 				channel.sendMessage("Die Server-IP ist **shantytown.eu**.").queue();
 			} else if (message.contains("owner")) {
-				channel.sendMessage("Der Owner von shantytown.eu ist **ScuroK** *(" + event.getGuild().getOwner().getOnlineStatus() + ")*").queue();
+				channel.sendMessage("Der Owner von shantytown.eu ist **ScuroK** *(Status auf dem Discord: " + event.getGuild().getOwner().getOnlineStatus() + ")*").queue();
+			}
+			
+			if (event.getMessage().getMentionedMembers().contains(event.getGuild().getMemberById("725076053495644201"))) {
+				channel.sendMessage("Bitte belästigen Sie mich nicht!").queue();
+				EmbedBuilder embed = new EmbedBuilder();
+				embed.setColor(Color.red);
+				embed.setTitle("⚠ Verwarnung");
+				embed.addField("Für:", event.getMember().getEffectiveName(), true);
+				embed.addField("Grund:", "Belästigung", true);
+				embed.addField("Verwarnung:", 4 + " von 5", false);
+				channel.sendMessage(embed.build()).queue();
 			}
 			//channel.sendMessage(event.getMessage().getMentionedMembers().get(0).getOnlineStatus().toString()).queue();
 		}

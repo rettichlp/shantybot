@@ -21,7 +21,7 @@ public class CommandListener extends ListenerAdapter {
 		if(event.isFromType(ChannelType.TEXT)) {
 			TextChannel channel = event.getTextChannel();
 			
-			if(message.startsWith("!sb ")) {
+			if(message.startsWith("!sb ") && event.getGuild().getId().equalsIgnoreCase("214319038556405761")) {
 				
 				String[] args = message.substring(4).split(" ");
 					

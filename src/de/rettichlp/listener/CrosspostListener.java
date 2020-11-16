@@ -12,7 +12,7 @@ public class CrosspostListener extends ListenerAdapter {
 		if(event.isFromType(ChannelType.TEXT)) {
 			if (event.getChannel().getId().equalsIgnoreCase("625094112068108299")) { //Mitteilungen
 				event.getMessage().crosspost().queue();
-				System.out.println("[ShantyBot] Nachricht aus '#!-mitteilungen' veröffentlich");
+				System.out.println("[ShantyBot] Nachricht aus '#!-mitteilungen' veröffentlicht");
 			}
 		}		
 	}	

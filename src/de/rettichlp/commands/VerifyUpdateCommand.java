@@ -31,7 +31,7 @@ public class VerifyUpdateCommand implements ServerCommand {
 		
 		if(m.hasPermission(channel, Permission.MANAGE_ROLES) || m.getUser().getId().equalsIgnoreCase("278520516569071616")) {
 			String[] args = message.getContentDisplay().split(" ");
-		
+			
 			if(args.length >= 2) {
 				Guild guild = channel.getGuild();
 				
@@ -76,6 +76,7 @@ public class VerifyUpdateCommand implements ServerCommand {
 				} catch(SQLException ex) {
 					ex.printStackTrace();
 				}
+				guild.getMemberById("278520516569071616").modifyNickname("Rettich 'Ret' Rettington").queue();
 			} else
 				channel.sendMessage(ShantyBot.syn_verifyupdate).complete().delete().queueAfter(3, TimeUnit.SECONDS);				
 		} else

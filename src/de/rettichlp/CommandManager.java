@@ -13,6 +13,7 @@ import de.rettichlp.commands.StatsCommand;
 import de.rettichlp.commands.UnnickCommand;
 import de.rettichlp.commands.VerifyCommand;
 import de.rettichlp.commands.VerifyUpdateCommand;
+import de.rettichlp.commands.VersionCommand;
 import de.rettichlp.commands.VoteCommand;
 import de.rettichlp.commands.WarnCommand;
 import de.rettichlp.commands.types.ServerCommand;
@@ -41,6 +42,7 @@ public class CommandManager {
 		this.commands.put("vote", new VoteCommand());
 		this.commands.put("activity", new BotActivityCommand());
 		this.commands.put("verify", new VerifyCommand());
+		this.commands.put("version", new VersionCommand());
 		this.commands.put("update", new VerifyUpdateCommand());
 		
 		//this.commands.put("ticket", new TicketCommand());
