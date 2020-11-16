@@ -1,6 +1,10 @@
 # shantybot
 Discord Bot für ShantyTown.eu
 
+### [2.14](https://drive.google.com/file/d/1kB_z-460JAlkwLge6Yp1aqOmi6IDWf6o/view?usp=sharing)
+- !sb version
+- verstecktes Feature eingebaut
+
 ### [2.13.1](https://drive.google.com/file/d/1FyffT9V5cRR_0cQegZvfYxyoPjlJZs23/view?usp=sharing)
 - Behebnung von Rechtschreibfehlern
 - Anpassung des AutoResponseSystems
