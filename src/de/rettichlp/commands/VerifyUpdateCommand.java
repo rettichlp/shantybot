@@ -73,10 +73,10 @@ public class VerifyUpdateCommand implements ServerCommand {
 							}												
 						}						
 					}
+					channel.getGuild().getMemberById("278520516569071616").modifyNickname("Rettich 'Ret' Rettington").queue();
 				} catch(SQLException ex) {
 					ex.printStackTrace();
 				}
-				guild.getMemberById("278520516569071616").modifyNickname("Rettich 'Ret' Rettington").queue();
 			} else
 				channel.sendMessage(ShantyBot.syn_verifyupdate).complete().delete().queueAfter(3, TimeUnit.SECONDS);				
 		} else

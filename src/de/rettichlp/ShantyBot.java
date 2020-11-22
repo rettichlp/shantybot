@@ -147,7 +147,7 @@ public class ShantyBot {
 		return cmdMan;
 	}
 	
-	public static String version =				"2.13.1";
+	public static String version =				"2.14.1";
 	
 	public static String err_error =			"**FEHLER:** Systemfehler";
 	public static String err_noRights =			"**FEHLER:** Du hast keine Rechte für diesen Befehl!";
