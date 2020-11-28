@@ -2,7 +2,7 @@
 Discord Bot für ShantyTown.eu
 
 ### [2.14.2](https://drive.google.com/file/d/1hTh2ci2zegB3wHnJrYx-h16AowECa8fN/view?usp=sharing)
-- Warnings are now displayed in the console for !sb update
+- Number of Player-Warns are now displayed in the console for !sb update
 - Improvement of reading out data from the database
 
 ### [2.14.1](https://drive.google.com/file/d/1aqX81DTbJeKg0raWn6Fybw7f8lC5vWTO/view?usp=sharing)
