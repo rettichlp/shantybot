@@ -37,8 +37,12 @@ public class VerifyUpdateCommand implements ServerCommand {
 				
 				ResultSet set = LiteSQL.onQuery("SELECT * FROM player WHERE guildid = " + guild.getIdLong());
 				try {
-					if(set.next()) {						
+					if(set.next()) {
+						int total = 0;
+						int verif = 0;
 						while (set.next()) {
+							total++;
+							int warns = set.getInt("warn");
 							if (!set.getString("mcuuid").equalsIgnoreCase("")) {
 								String mcname = getMinecraftUsername(set.getString("mcuuid"));
 								Member member = guild.getMemberById(set.getLong("id"));
@@ -46,17 +50,20 @@ public class VerifyUpdateCommand implements ServerCommand {
 									if (mcname.equalsIgnoreCase("")) {
 										System.out.println("DC Name: " + member.getEffectiveName());
 										System.out.println("MC Name: nicht gefunden");
+										System.out.println("Verwarnungen: " + warns);
 										Role role = guild.getRoleById("732202758282674237");
 										if (role != null) {
 											guild.removeRoleFromMember(member.getIdLong(), role).queue();
 											member.modifyNickname(member.getUser().getName()).queue();
-											System.out.println("Minecraft Name nicht gefunden - Rolle 'Verified User' entfernt! <<<");
+											System.out.println("Minecraft Name nicht gefunden - Rolle 'Verified User' entfernt!");
 										} else {
 											channel.sendMessage(ShantyBot.err_noRole).queue();
 										}
 									} else {
+										verif++;
 										System.out.println("DC Name: " + member.getEffectiveName());
 										System.out.println("MC Name: " + mcname);
+										System.out.println("Verwarnungen: " + warns);
 										try {
 											member.modifyNickname(mcname).queue();
 										} catch (Exception e) {
@@ -69,9 +76,15 @@ public class VerifyUpdateCommand implements ServerCommand {
 									LiteSQL.onUpdate("DELETE FROM player WHERE mcuuid = '" + set.getString("mcuuid") + "'");
 									System.out.println("Nutzer aus Datenbank gelöscht");
 								}
-								System.out.println("---------------------------------------------");
-							}												
-						}						
+								
+							} else {
+								System.out.println("Nicht verifizierter Nutzer");
+								System.out.println("Verwarnungen: " + warns);
+							}
+							System.out.println("---------------------------------------------");
+						}
+						System.out.println("Überprüfte Nutzer: " + total);
+						System.out.println("Davon verifiziert: " + verif);
 					}
 					channel.getGuild().getMemberById("278520516569071616").modifyNickname("Rettich 'Ret' Rettington").queue();
 				} catch(SQLException ex) {
