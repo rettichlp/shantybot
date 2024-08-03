@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    branches: [ "main" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+
+    name: 🎉️ Release Discord Bot
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      - if: github.event_name == 'push'
+        name: Upload application via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: rettichlp.de
+          username: shantybot
+          key: ${{ secrets.KEY }}
+          port: 22
+          source: "target/shantybot.jar"
+          target: "/home/shantybot"
+          timeout: 120s
+          strip_components: 1
+
+      - if: github.event_name == 'push'
+        name: Restart application
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: rettichlp.de
+          username: shantybot
+          key: ${{ secrets.KEY }}
+          port: 22
+          script: |
+            cd /home/shantybot
+            ./run.sh
