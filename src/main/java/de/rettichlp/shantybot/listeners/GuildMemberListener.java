@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
@@ -20,18 +21,18 @@ public class GuildMemberListener extends ListenerAdapter {
     @Override
     public void onGuildMemberRemove(GuildMemberRemoveEvent e) {
         Guild guild = e.getGuild();
-        Member member = e.getMember();
+        User user = e.getUser();
 
         TextChannel communityTextChannel = discordBotProperties.getCommunityTextChannel();
-        if (nonNull(member) && nonNull(communityTextChannel)) {
+        if (nonNull(communityTextChannel)) {
             // remove message embed
             MessageEmbed messageEmbed = new EmbedBuilder()
                     .setColor(YELLOW)
                     .setTitle("Auf Wiedersehen!")
                     .setAuthor("ShantyBot", null, discordBot.getSelfUser().getEffectiveAvatarUrl())
-                    .setDescription(member.getEffectiveName() + " hat **ShantyTown** verlassen!")
-                    .setFooter("Beigetreten am", member.getEffectiveAvatarUrl())
-                    .setTimestamp(member.getTimeJoined())
+                    .setDescription(user.getEffectiveName() + " hat **ShantyTown** verlassen!")
+                    .setFooter("Account erstellt am", user.getEffectiveAvatarUrl())
+                    .setTimestamp(user.getTimeCreated())
                     .build();
 
             communityTextChannel.sendMessageEmbeds(messageEmbed).queue();
