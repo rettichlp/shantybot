@@ -1,5 +1,6 @@
 package de.rettichlp.shantybot;
 
+import de.rettichlp.shantybot.commands.VersionCommand;
 import de.rettichlp.shantybot.common.configuration.DiscordBotProperties;
 import de.rettichlp.shantybot.listeners.GuildMemberListener;
 import de.rettichlp.shantybot.listeners.GuildMessageListener;
@@ -12,11 +13,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static java.lang.System.currentTimeMillis;
+import static net.dv8tion.jda.api.interactions.commands.build.Commands.slash;
 import static net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MEMBERS;
 import static net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MESSAGES;
 import static net.dv8tion.jda.api.requests.GatewayIntent.GUILD_VOICE_STATES;
 import static net.dv8tion.jda.api.requests.GatewayIntent.MESSAGE_CONTENT;
-import static net.dv8tion.jda.api.utils.Compression.NONE;
 import static net.dv8tion.jda.api.utils.cache.CacheFlag.MEMBER_OVERRIDES;
 
 @Log4j2
@@ -41,15 +42,18 @@ public class ShantyBot implements WebMvcConfigurer {
                 .createDefault(discordBotProperties.getToken())
                 .disableCache(MEMBER_OVERRIDES) // Disable parts of the cache
                 .setBulkDeleteSplittingEnabled(false) // Enable the bulk delete event
-                .setCompression(NONE) // Disable compression (not recommended)
-                .enableIntents(MESSAGE_CONTENT)
-                .enableIntents(GUILD_MEMBERS)
-                .enableIntents(GUILD_MESSAGES)
-                .enableIntents(GUILD_VOICE_STATES)
+                .enableIntents(MESSAGE_CONTENT, GUILD_MEMBERS, GUILD_MESSAGES, GUILD_VOICE_STATES)
+                .addEventListeners(
+                        new VersionCommand("version")
+                )
                 .addEventListeners(
                         new GuildMessageListener(),
                         new GuildMemberListener()
                 )
                 .build().awaitReady();
+
+        discordBotProperties.getGuild().updateCommands().addCommands(
+                slash("version", "Zeigt die aktuelle Version des ShantyBots")
+        ).queue();
     }
 }
