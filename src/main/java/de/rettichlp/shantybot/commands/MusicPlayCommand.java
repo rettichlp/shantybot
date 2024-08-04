@@ -40,6 +40,7 @@ public class MusicPlayCommand extends CommandBase {
             AudioManager audioManager = guild.getAudioManager();
             VoiceChannel voiceChannel = (VoiceChannel) memberVoiceState.getChannel();
             audioManager.openAudioConnection(voiceChannel);
+            audioManager.setSelfDeafened(true);
         }
 
         String potentialLink = linkOptionMapping.getAsString();
