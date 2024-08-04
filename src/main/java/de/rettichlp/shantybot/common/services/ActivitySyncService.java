@@ -23,17 +23,17 @@ public class ActivitySyncService {
     };
 
     public ActivitySyncService() {
-        long oneMinuteInMillis = MINUTES.toMillis(1);
+        long fiveMinutesInMillis = MINUTES.toMillis(5);
 
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                String activityString = ActivitySyncService.this.activities[(int) (currentTimeMillis() / oneMinuteInMillis) % ActivitySyncService.this.activities.length];
+                String activityString = ActivitySyncService.this.activities[(int) (currentTimeMillis() / fiveMinutesInMillis) % ActivitySyncService.this.activities.length];
 
                 Activity activity = playing(activityString.replace("%count%", String.valueOf(discordBotProperties.getGuild().getMemberCount())));
                 discordBot.getPresence().setActivity(activity);
             }
-        }, oneMinuteInMillis - currentTimeMillis() % oneMinuteInMillis, oneMinuteInMillis);
+        }, fiveMinutesInMillis - currentTimeMillis() % fiveMinutesInMillis, fiveMinutesInMillis);
         log.info("Activity synchronising: scheduled");
     }
 }
