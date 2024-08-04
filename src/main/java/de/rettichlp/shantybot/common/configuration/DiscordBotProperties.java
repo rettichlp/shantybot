@@ -13,6 +13,9 @@ import static de.rettichlp.shantybot.ShantyBot.discordBot;
 @Component
 public class DiscordBotProperties {
 
+    @Value("${application-version}")
+    private String version;
+
     @Value("${discord.bot.token}")
     private String token;
 

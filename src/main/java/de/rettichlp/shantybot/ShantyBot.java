@@ -1,5 +1,6 @@
 package de.rettichlp.shantybot;
 
+import de.rettichlp.shantybot.commands.VersionCommand;
 import de.rettichlp.shantybot.commands.MusicPlayCommand;
 import de.rettichlp.shantybot.commands.MusicSkipCommand;
 import de.rettichlp.shantybot.commands.MusicStopCommand;
@@ -15,6 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static java.lang.System.currentTimeMillis;
+import static net.dv8tion.jda.api.interactions.commands.build.Commands.slash;
 import static net.dv8tion.jda.api.interactions.commands.OptionType.STRING;
 import static net.dv8tion.jda.api.interactions.commands.build.Commands.slash;
 import static net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MEMBERS;
@@ -48,7 +50,8 @@ public class ShantyBot implements WebMvcConfigurer {
                 .addEventListeners(
                         new MusicPlayCommand("play"),
                         new MusicSkipCommand("skip"),
-                        new MusicStopCommand("stop")
+                        new MusicStopCommand("stop"),
+                        new VersionCommand("version")
                 )
                 .addEventListeners(
                         new GuildMessageListener(),
@@ -57,11 +60,11 @@ public class ShantyBot implements WebMvcConfigurer {
                 .build().awaitReady();
 
         discordBotProperties.getGuild().updateCommands().addCommands(
-                // everyone
                 slash("play", "Lässt den Bot Deinen Channel betreten und die angegebene Musik spielen")
                         .addOption(STRING, "link", "Link oder Name des Songs", true),
                 slash("skip", "Überspringt das Lied und spielt das nächste Lied in der Warteschlange (wenn vorhanden)"),
-                slash("stop", "Beendet die Musikwiedergabe und leert die Warteschlange")
+                slash("stop", "Beendet die Musikwiedergabe und leert die Warteschlange"),
+                slash("version", "Zeigt die aktuelle Version des ShantyBots")
         ).queue();
     }
 }
