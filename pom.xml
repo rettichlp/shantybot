@@ -11,7 +11,7 @@
 
     <groupId>de.rettichlp</groupId>
     <artifactId>shantybot</artifactId>
-    <version>1.0.0-rc.1</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>ShantyBot</name>
