@@ -24,6 +24,11 @@ jobs:
           java-version: '21'
           cache: maven
 
+      - name: Set application properties
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+        run: echo "discord.bot.token=$DISCORD_BOT_TOKEN" >> src/main/resources/application.properties
+
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
@@ -33,7 +38,7 @@ jobs:
         with:
           host: rettichlp.de
           username: shantybot
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.SSH_KEY }}
           port: 22
           source: "target/shantybot.jar"
           target: "/home/shantybot"
@@ -46,7 +51,7 @@ jobs:
         with:
           host: rettichlp.de
           username: shantybot
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
             cd /home/shantybot
