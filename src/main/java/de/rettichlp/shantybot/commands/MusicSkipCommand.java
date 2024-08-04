@@ -40,7 +40,7 @@ public class MusicSkipCommand extends CommandBase {
             return;
         }
 
-        GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
+        GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(requireNonNull(event.getGuild()));
         AudioPlayer audioPlayer = musicManager.getAudioPlayer();
 
         if (audioPlayer.getPlayingTrack() == null) {
