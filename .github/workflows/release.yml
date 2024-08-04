@@ -1,8 +1,17 @@
 name: Release
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The version of the release (e.g. 1.0.0)'
+        required: true
+        type: string
+
+run-name: Create release v${{ inputs.version }}
+
+permissions:
+  contents: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -11,11 +20,33 @@ concurrency:
 jobs:
   release:
 
-    name: 🎉️ Release Discord Bot
+    name: 🎉 Release Discord Bot
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          user_name=$(curl -s 'https://api.github.com/users/${{ github.actor }}' | jq -r '.name')
+          git config --global user.name "$user_name"
+          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+
+      - name: Update project version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mvn versions:set -DnewVersion=${{ inputs.version }}
+
+      - name: Commit and merge develop branch to main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git commit --all -m "Update version to ${{ inputs.version }}" && git push origin develop
+          git fetch --all
+          git checkout --track origin/main && git pull
+          git merge -m "Release ${{ inputs.version }}" develop && git push origin main
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -32,8 +63,7 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      - if: github.event_name == 'push'
-        name: Upload application via SCP
+      - name: Upload application via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: rettichlp.de
@@ -45,8 +75,7 @@ jobs:
           timeout: 120s
           strip_components: 1
 
-      - if: github.event_name == 'push'
-        name: Restart application
+      - name: Restart application
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: rettichlp.de
@@ -56,3 +85,14 @@ jobs:
           script: |
             cd /home/shantybot
             ./run.sh
+
+      - name: Create release notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: v${{ inputs.version }}
+        run: |
+          gh release create "$tag" \
+              --target main \
+              --repo="$GITHUB_REPOSITORY" \
+              --title="Roomitoring $tag" \
+              --generate-notes

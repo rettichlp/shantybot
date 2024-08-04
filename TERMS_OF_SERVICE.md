@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-Welcome to ShantyBot! By using our bot, you agree to comply with and be bound by the following terms of service. If you do not agree
+Welcome to ShantyBot! By using my bot, you agree to comply with and be bound by the following terms of service. If you do not agree
 to these terms, please do not use the bot.
 
 ## 2. Use of the Bot
