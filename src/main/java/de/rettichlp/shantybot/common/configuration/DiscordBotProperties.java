@@ -25,9 +25,6 @@ public class DiscordBotProperties {
     @Value("${discord.guild.channels.community-text-channel}")
     private String communityTextChannel;
 
-    @Value("${discord.guild.channels.bot-text-channel}")
-    private String botTextChannel;
-
     @Value("${discord.guild.roles.member-role}")
     private String memberRole;
 
@@ -37,10 +34,6 @@ public class DiscordBotProperties {
 
     public TextChannel getCommunityTextChannel() {
         return getGuild().getTextChannelById(this.communityTextChannel);
-    }
-
-    public TextChannel getBotTextChannel() {
-        return getGuild().getTextChannelById(this.botTextChannel);
     }
 
     public Role getMemberRole() {
