@@ -5,7 +5,10 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.util.HashMap;
@@ -14,6 +17,7 @@ import java.util.Map;
 
 import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerLocalSource;
 import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerRemoteSources;
+import static de.rettichlp.shantybot.common.services.UtilService.millisecondsToMMSS;
 import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletingMessage;
 import static java.util.Objects.requireNonNull;
 
@@ -43,36 +47,39 @@ public class AudioPlayerManager {
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
-                musicManager.queue(audioTrack);
-                //                MusicEB musicEB = new MusicEB();
-                //                musicEB.getBuilder().setDescription("A new music has been added to queue.");
-                //                musicEB.getBuilder().addField("Music", audioTrack.getInfo().title, false);
-                //                musicEB.getBuilder().addField("Author", audioTrack.getInfo().author, false);
-                //                musicEB.getBuilder().addField("Added by", data.getCommandSender().getAsMention(), false);
-                //                data.getEvent().getHook().sendMessageEmbeds(musicEB.getBuilder().build()).setActionRow(musicEB.getActionRow()).queue();
-                //                sendSelfDeletingMessage(event, "Ein neuer Song wurde zur Warteschlange hinzugefügt.");
-                event.getChannel().sendMessage("Ja").queue();
-                // TODO send song message
+                musicManager.queue(event.getChannel(), audioTrack);
+
+                AudioTrackInfo audioTrackInfo = audioTrack.getInfo();
+                MessageEmbed messageEmbed = new EmbedBuilder()
+                        .setColor(0xcece80)
+                        .addField("Musikwunsch von " + event.getUser().getEffectiveName(), "📬 **[" + audioTrackInfo.title + "](" + audioTrackInfo.uri + ")** von **" + audioTrackInfo.author + "** (" + millisecondsToMMSS(audioTrackInfo.length) + ")", false)
+                        .build();
+
+                event.replyEmbeds(messageEmbed).queue();
             }
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
                 List<AudioTrack> tracks = audioPlaylist.getTracks();
                 if (!tracks.isEmpty()) {
-                    musicManager.queue(tracks.get(0));
-                    //                    MusicEB musicEB = new MusicEB();
-                    //                    musicEB.getBuilder().setDescription("A new music has been added to queue.");
-                    //                    musicEB.getBuilder().addField("Music", tracks.get(0).getInfo().title, false);
-                    //                    musicEB.getBuilder().addField("Author", tracks.get(0).getInfo().author, false);
-                    //                    musicEB.getBuilder().addField("Added by", data.getCommandSender().getAsMention(), false);
-                    //                    data.getEvent().getHook().sendMessageEmbeds(musicEB.getBuilder().build()).setActionRow(musicEB.getActionRow()).queue();
-                    event.getChannel().sendMessage("Ja list").queue();
+                    AudioTrack audioTrack = tracks.get(0);
+                    musicManager.queue(event.getChannel(), audioTrack);
+
+                    AudioTrackInfo audioTrackInfo = audioTrack.getInfo();
+                    MessageEmbed messageEmbed = new EmbedBuilder()
+                            .setColor(0xcece80)
+                            .addField("Musikwunsch von " + event.getUser().getEffectiveName(), "📬 **[" + audioTrackInfo.title + "](" + audioTrackInfo.uri + ")** von **" + audioTrackInfo.author + "** (" + millisecondsToMMSS(audioTrackInfo.length) + ") und " + (audioPlaylist.getTracks().size() - 1) + " weitere", false)
+                            .build();
+
+                    event.replyEmbeds(messageEmbed).queue();
+                } else {
+                    sendSelfDeletingMessage(event, "Die Playlist ist leer.");
                 }
             }
 
             @Override
             public void noMatches() {
-                if (trackUrl.startsWith("ytsearch:")) {
+                if (trackUrl.startsWith("ytmsearch:")) {
                     sendSelfDeletingMessage(event, "Es wurde kein Song mit dem Namen `" + trackUrl.substring(9) + "` gefunden.");
                 } else {
                     sendSelfDeletingMessage(event, "Es wurde kein Song mit der URL `" + trackUrl + "` gefunden.");

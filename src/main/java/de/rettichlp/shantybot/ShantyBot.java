@@ -1,9 +1,10 @@
 package de.rettichlp.shantybot;
 
-import de.rettichlp.shantybot.commands.VersionCommand;
+import de.rettichlp.shantybot.buttons.QueueButton;
+import de.rettichlp.shantybot.buttons.SkipButton;
+import de.rettichlp.shantybot.buttons.StopButton;
 import de.rettichlp.shantybot.commands.MusicPlayCommand;
-import de.rettichlp.shantybot.commands.MusicSkipCommand;
-import de.rettichlp.shantybot.commands.MusicStopCommand;
+import de.rettichlp.shantybot.commands.VersionCommand;
 import de.rettichlp.shantybot.common.configuration.DiscordBotProperties;
 import de.rettichlp.shantybot.common.lavaplayer.AudioPlayerManager;
 import de.rettichlp.shantybot.listeners.GuildMemberListener;
@@ -17,7 +18,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static java.lang.System.currentTimeMillis;
-import static net.dv8tion.jda.api.interactions.commands.build.Commands.slash;
 import static net.dv8tion.jda.api.interactions.commands.OptionType.STRING;
 import static net.dv8tion.jda.api.interactions.commands.build.Commands.slash;
 import static net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MEMBERS;
@@ -51,21 +51,22 @@ public class ShantyBot implements WebMvcConfigurer {
                 .enableIntents(MESSAGE_CONTENT, GUILD_MEMBERS, GUILD_MESSAGES, GUILD_VOICE_STATES)
                 .addEventListeners(
                         new MusicPlayCommand("play"),
-                        new MusicSkipCommand("skip"),
-                        new MusicStopCommand("stop"),
                         new VersionCommand("version")
                 )
                 .addEventListeners(
                         new GuildMessageListener(),
                         new GuildMemberListener()
                 )
+                .addEventListeners(
+                        new QueueButton(),
+                        new SkipButton(),
+                        new StopButton()
+                )
                 .build().awaitReady();
 
         discordBotProperties.getGuild().updateCommands().addCommands(
                 slash("play", "Lässt den Bot Deinen Channel betreten und die angegebene Musik spielen")
                         .addOption(STRING, "link", "Link oder Name des Songs", true),
-                slash("skip", "Überspringt das Lied und spielt das nächste Lied in der Warteschlange (wenn vorhanden)"),
-                slash("stop", "Beendet die Musikwiedergabe und leert die Warteschlange"),
                 slash("version", "Zeigt die aktuelle Version des ShantyBots")
         ).queue();
 
