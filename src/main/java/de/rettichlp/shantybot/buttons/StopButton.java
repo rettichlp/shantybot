@@ -23,14 +23,14 @@ public class StopButton extends ButtonBase {
     public void onButtonClick(ButtonInteractionEvent event) {
         GuildVoiceState memberVoiceState = requireNonNull(event.getMember()).getVoiceState();
         if (isNull(memberVoiceState) || !memberVoiceState.inAudioChannel()) {
-            sendSelfDeletingMessage(event, "Du musst in einem Audio Channel sein um diesen Befehl zu nutzen.");
+            sendSelfDeletingMessage(event, "Du musst in einem Audio Channel sein um diesen Befehl zu nutzen!");
             return;
         }
 
         Guild guild = discordBotProperties.getGuild();
         GuildVoiceState selfVoiceState = guild.getSelfMember().getVoiceState();
         if (isNull(selfVoiceState) || !selfVoiceState.inAudioChannel()) {
-            sendSelfDeletingMessage(event, "Es wird gerade keine Musik gespielt.");
+            sendSelfDeletingMessage(event, "Es wird gerade keine Musik gespielt!");
             return;
         }
 
