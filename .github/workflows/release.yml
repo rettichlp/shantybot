@@ -46,7 +46,7 @@ jobs:
           git commit --all -m "Update version to ${{ inputs.version }}" && git push origin develop
           git fetch --all
           git checkout --track origin/main && git pull
-          git merge -m "Release ${{ inputs.version }}" develop && git push origin main
+          git merge --no-ff -m "Release ${{ inputs.version }}" develop && git push origin main
 
       - name: Set up JDK
         uses: actions/setup-java@v4
