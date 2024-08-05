@@ -18,4 +18,11 @@ public class UtilService {
             iReplyCallback.getHook().deleteOriginal().queueAfter(seconds - 1, SECONDS);
         }
     }
+
+    public static String millisecondsToMMSS(long milliseconds) {
+        long totalSeconds = milliseconds / 1000;
+        long minutes = totalSeconds / 60;
+        long seconds = totalSeconds % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
 }
