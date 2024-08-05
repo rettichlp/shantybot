@@ -26,6 +26,7 @@ import static java.util.Objects.nonNull;
 import static net.dv8tion.jda.api.interactions.components.buttons.Button.danger;
 import static net.dv8tion.jda.api.interactions.components.buttons.Button.primary;
 import static net.dv8tion.jda.api.interactions.components.buttons.Button.secondary;
+import static net.dv8tion.jda.api.interactions.components.buttons.Button.success;
 
 @Getter
 public class GuildMusicManager extends AudioEventAdapter implements AudioSendHandler {
@@ -85,8 +86,6 @@ public class GuildMusicManager extends AudioEventAdapter implements AudioSendHan
             this.musicTextChannel.retrieveMessageById(this.nowPlayingEmbedId).queue(message -> message.delete().queue());
         }
 
-        System.out.println(this.queue);
-
         AudioTrackInfo audioTrackInfo = audioTrack.getInfo();
         MessageEmbed messageEmbed = new EmbedBuilder()
                 .setColor(0xcece80)
@@ -99,8 +98,8 @@ public class GuildMusicManager extends AudioEventAdapter implements AudioSendHan
 
         this.musicTextChannel.sendMessageEmbeds(messageEmbed).addActionRow(
                 primary("btn_queue", "📑"),
-                secondary("btn_resume", "▶️"),
-                primary("btn_pause", "⏸️"),
+                (player.isPaused() ? success("btn_resume", "▶️") : secondary("btn_resume", "▶️")),
+                (player.isPaused() ? secondary("btn_pause", "⏸️") : primary("btn_pause", "⏸️")),
                 primary("btn_skip", "⏭️"),
                 danger("btn_stop", "⏹️")
         ).queue(message -> this.nowPlayingEmbedId = message.getId());
