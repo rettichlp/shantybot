@@ -21,6 +21,7 @@ public class GuildMusicManager extends AudioEventAdapter implements AudioSendHan
     private final AudioPlayer audioPlayer;
     private final BlockingQueue<AudioTrack> queue;
     private AudioFrame lastFrame;
+    private TextChannel musicTextChannel;
 
     public GuildMusicManager(AudioPlayerManager manager) {
         this.audioPlayer = manager.createPlayer();
@@ -28,9 +29,10 @@ public class GuildMusicManager extends AudioEventAdapter implements AudioSendHan
         this.queue = new LinkedBlockingQueue<>();
     }
 
-    public void queue(AudioTrack track) {
-        if (!this.audioPlayer.startTrack(track, true)) {
-            this.queue.add(track);
+    public void queue(Channel channel, AudioTrack audioTrack) {
+        this.musicTextChannel = (TextChannel) channel;
+        if (!this.audioPlayer.startTrack(audioTrack, true)) {
+            this.queue.add(audioTrack);
         }
     }
 

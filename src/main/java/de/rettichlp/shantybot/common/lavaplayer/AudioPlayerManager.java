@@ -62,10 +62,9 @@ public class AudioPlayerManager {
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
                 List<AudioTrack> tracks = audioPlaylist.getTracks();
                 if (!tracks.isEmpty()) {
-                    AudioTrack audioTrack = tracks.get(0);
-                    musicManager.queue(event.getChannel(), audioTrack);
+                    tracks.forEach(audioTrack -> musicManager.queue(event.getChannel(), audioTrack));
 
-                    AudioTrackInfo audioTrackInfo = audioTrack.getInfo();
+                    AudioTrackInfo audioTrackInfo = tracks.getFirst().getInfo();
                     MessageEmbed messageEmbed = new EmbedBuilder()
                             .setColor(0xcece80)
                             .addField("Musikwunsch von " + event.getUser().getEffectiveName(), "📬 **[" + audioTrackInfo.title + "](" + audioTrackInfo.uri + ")** von **" + audioTrackInfo.author + "** (" + millisecondsToMMSS(audioTrackInfo.length) + ") und " + (audioPlaylist.getTracks().size() - 1) + " weitere", false)
