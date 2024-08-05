@@ -7,8 +7,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-import static de.rettichlp.shantybot.ShantyBot.discordBotProperties;
 import static de.rettichlp.shantybot.ShantyBot.audioPlayerManager;
+import static de.rettichlp.shantybot.ShantyBot.discordBotProperties;
 import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletingMessage;
 import static java.lang.String.join;
 import static java.util.Objects.isNull;
