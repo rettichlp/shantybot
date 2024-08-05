@@ -5,6 +5,7 @@ import de.rettichlp.shantybot.buttons.QueueButton;
 import de.rettichlp.shantybot.buttons.ResumeButton;
 import de.rettichlp.shantybot.buttons.SkipButton;
 import de.rettichlp.shantybot.buttons.StopButton;
+import de.rettichlp.shantybot.commands.DeleteMessageCommand;
 import de.rettichlp.shantybot.commands.MusicPlayCommand;
 import de.rettichlp.shantybot.commands.VersionCommand;
 import de.rettichlp.shantybot.common.configuration.DiscordBotProperties;
@@ -20,7 +21,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static java.lang.System.currentTimeMillis;
+import static net.dv8tion.jda.api.Permission.MESSAGE_MANAGE;
+import static net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions.enabledFor;
+import static net.dv8tion.jda.api.interactions.commands.OptionType.INTEGER;
 import static net.dv8tion.jda.api.interactions.commands.OptionType.STRING;
+import static net.dv8tion.jda.api.interactions.commands.OptionType.USER;
 import static net.dv8tion.jda.api.interactions.commands.build.Commands.slash;
 import static net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MEMBERS;
 import static net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MESSAGES;
@@ -52,6 +57,7 @@ public class ShantyBot implements WebMvcConfigurer {
                 .disableCache(MEMBER_OVERRIDES) // Disable parts of the cache
                 .enableIntents(MESSAGE_CONTENT, GUILD_MEMBERS, GUILD_MESSAGES, GUILD_VOICE_STATES)
                 .addEventListeners(
+                        new DeleteMessageCommand("löschen"),
                         new MusicPlayCommand("play"),
                         new VersionCommand("version")
                 )
@@ -71,7 +77,10 @@ public class ShantyBot implements WebMvcConfigurer {
         discordBotProperties.getGuild().updateCommands().addCommands(
                 slash("play", "Lässt den Bot Deinen Channel betreten und die angegebene Musik spielen")
                         .addOption(STRING, "link", "Link oder Name des Songs", true),
-                slash("version", "Zeigt die aktuelle Version des ShantyBots")
+                slash("version", "Zeigt die aktuelle Version des ShantyBots"),
+                slash("löschen", "Löscht die angegebene Menge an Nachrichten (optional eines bestimmten Nutzers)")
+                        .addOption(INTEGER, "anzahl", "Anzahl der Nachrichten, die gelöscht werden sollen", true)
+                        .setDefaultPermissions(enabledFor(MESSAGE_MANAGE))
         ).queue();
 
         audioPlayerManager = new AudioPlayerManager();

@@ -72,22 +72,22 @@ public class AudioPlayerManager {
 
                     event.replyEmbeds(messageEmbed).queue();
                 } else {
-                    sendSelfDeletingMessage(event, "Die Playlist ist leer.");
+                    sendSelfDeletingMessage(event, "Die Playlist ist leer!");
                 }
             }
 
             @Override
             public void noMatches() {
                 if (trackUrl.startsWith("ytmsearch:")) {
-                    sendSelfDeletingMessage(event, "Es wurde kein Song mit dem Namen `" + trackUrl.substring(9) + "` gefunden.");
+                    sendSelfDeletingMessage(event, "Es wurde kein Song mit dem Namen `" + trackUrl.substring(9) + "` gefunden!");
                 } else {
-                    sendSelfDeletingMessage(event, "Es wurde kein Song mit der URL `" + trackUrl + "` gefunden.");
+                    sendSelfDeletingMessage(event, "Es wurde kein Song mit der URL `" + trackUrl + "` gefunden!");
                 }
             }
 
             @Override
             public void loadFailed(FriendlyException e) {
-                sendSelfDeletingMessage(event, "Fehler beim Laden des Songs.");
+                sendSelfDeletingMessage(event, "Fehler beim Laden des Songs!");
             }
         });
     }

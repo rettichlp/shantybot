@@ -23,26 +23,26 @@ public class SkipButton extends ButtonBase {
     public void onButtonClick(ButtonInteractionEvent event) {
         GuildVoiceState memberVoiceState = requireNonNull(event.getMember()).getVoiceState();
         if (isNull(memberVoiceState) || !memberVoiceState.inAudioChannel()) {
-            sendSelfDeletingMessage(event, "Du musst in einem Audio Channel sein um diesen Befehl zu nutzen.");
+            sendSelfDeletingMessage(event, "Du musst in einem Audio Channel sein um diesen Befehl zu nutzen!");
             return;
         }
 
         Guild guild = discordBotProperties.getGuild();
         GuildVoiceState selfVoiceState = guild.getSelfMember().getVoiceState();
         if (isNull(selfVoiceState) || !selfVoiceState.inAudioChannel()) {
-            sendSelfDeletingMessage(event, "Es wird gerade keine Musik gespielt.");
+            sendSelfDeletingMessage(event, "Es wird gerade keine Musik gespielt!");
             return;
         }
 
         if (!Objects.equals(memberVoiceState.getChannel(), selfVoiceState.getChannel())) {
-            sendSelfDeletingMessage(event, "Du musst in dem selben Audio Channel wie der Bot sein.");
+            sendSelfDeletingMessage(event, "Du musst in dem selben Audio Channel wie der Bot sein!");
             return;
         }
 
         GuildMusicManager musicManager = audioPlayerManager.getMusicManager(requireNonNull(event.getGuild()));
 
         if (musicManager.getQueue().isEmpty()) {
-            sendSelfDeletingMessage(event, "Die Warteschlange enthält keine weiteren Songs.");
+            sendSelfDeletingMessage(event, "Die Warteschlange enthält keine weiteren Songs!");
             return;
         }
 

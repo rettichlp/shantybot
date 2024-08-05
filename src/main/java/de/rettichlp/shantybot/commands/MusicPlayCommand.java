@@ -24,13 +24,13 @@ public class MusicPlayCommand extends CommandBase {
     public void onCommand(SlashCommandInteractionEvent event) {
         OptionMapping linkOptionMapping = event.getOption("link");
         if (isNull(linkOptionMapping)) {
-            sendSelfDeletingMessage(event, "Es muss ein Link oder Suchbegriff angegeben werden.");
+            sendSelfDeletingMessage(event, "Es muss ein Link oder Suchbegriff angegeben werden!");
             return;
         }
 
         GuildVoiceState memberVoiceState = requireNonNull(event.getMember()).getVoiceState();
         if (isNull(memberVoiceState) || !memberVoiceState.inAudioChannel()) {
-            sendSelfDeletingMessage(event, "Du musst in einem Audio Channel sein um diesen Befehl zu nutzen.");
+            sendSelfDeletingMessage(event, "Du musst in einem Audio Channel sein um diesen Befehl zu nutzen!");
             return;
         }
 
