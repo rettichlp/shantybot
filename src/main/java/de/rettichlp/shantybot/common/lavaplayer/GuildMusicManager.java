@@ -90,7 +90,7 @@ public class GuildMusicManager extends AudioEventAdapter implements AudioSendHan
         MessageEmbed messageEmbed = new EmbedBuilder()
                 .setColor(0xcece80)
                 .setAuthor("📀 Jetzt" + (audioTrackInfo.isStream ? " LIVE 🔴" : ""))
-                .setTitle(audioTrackInfo.title, audioTrackInfo.uri)
+                .setTitle("🎶 • " + audioTrackInfo.title, audioTrackInfo.uri)
                 .addField("Author", audioTrackInfo.author, true)
                 .addField("Länge", millisecondsToMMSS(audioTrackInfo.length), true)
                 .setThumbnail(audioTrackInfo.artworkUrl)
