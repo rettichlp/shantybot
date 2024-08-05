@@ -15,7 +15,6 @@ import net.dv8tion.jda.api.audio.AudioSendHandler;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.BlockingQueue;
@@ -61,7 +60,7 @@ public class GuildMusicManager extends AudioEventAdapter implements AudioSendHan
         if (nonNull(this.nowPlayingEmbedId)) {
             this.musicTextChannel.retrieveMessageById(this.nowPlayingEmbedId).queue(message -> message.editMessageEmbeds(message.getEmbeds().getFirst()).setActionRow(
                     primary("btn_queue", "📑"),
-                    Button.success("btn_resume", "▶️"),
+                    success("btn_resume", "▶️"),
                     secondary("btn_pause", "⏸️"),
                     primary("btn_skip", "⏭️"),
                     danger("btn_stop", "⏹️")

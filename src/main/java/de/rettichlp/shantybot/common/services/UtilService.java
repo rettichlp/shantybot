@@ -3,6 +3,7 @@ package de.rettichlp.shantybot.common.services;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 
+import static java.lang.String.format;
 import static java.lang.System.currentTimeMillis;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -23,6 +24,6 @@ public class UtilService {
         long totalSeconds = milliseconds / 1000;
         long minutes = totalSeconds / 60;
         long seconds = totalSeconds % 60;
-        return String.format("%02d:%02d", minutes, seconds);
+        return format("%02d:%02d", minutes, seconds);
     }
 }

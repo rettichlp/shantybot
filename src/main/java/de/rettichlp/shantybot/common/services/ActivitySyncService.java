@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 import static de.rettichlp.shantybot.ShantyBot.discordBot;
 import static de.rettichlp.shantybot.ShantyBot.discordBotProperties;
+import static java.lang.String.valueOf;
 import static java.lang.System.currentTimeMillis;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static net.dv8tion.jda.api.entities.Activity.playing;
@@ -30,7 +31,7 @@ public class ActivitySyncService {
             public void run() {
                 String activityString = ActivitySyncService.this.activities[(int) (currentTimeMillis() / fiveMinutesInMillis) % ActivitySyncService.this.activities.length];
 
-                Activity activity = playing(activityString.replace("%count%", String.valueOf(discordBotProperties.getGuild().getMemberCount())));
+                Activity activity = playing(activityString.replace("%count%", valueOf(discordBotProperties.getGuild().getMemberCount())));
                 discordBot.getPresence().setActivity(activity);
             }
         }, fiveMinutesInMillis - currentTimeMillis() % fiveMinutesInMillis, fiveMinutesInMillis);
