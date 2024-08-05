@@ -1,26 +1,26 @@
-package de.rettichlp.shantybot.commands;
+package de.rettichlp.shantybot.buttons;
 
 import de.rettichlp.shantybot.common.lavaplayer.GuildMusicManager;
-import de.rettichlp.shantybot.common.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
 import java.util.Objects;
 
+import static de.rettichlp.shantybot.ShantyBot.audioPlayerManager;
 import static de.rettichlp.shantybot.ShantyBot.discordBotProperties;
 import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletingMessage;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
-public class MusicStopCommand extends CommandBase {
+public class StopButton extends ButtonBase {
 
-    public MusicStopCommand(String name) {
-        super(name);
+    public StopButton() {
+        super("btn_stop");
     }
 
     @Override
-    public void onCommand(SlashCommandInteractionEvent event) {
+    public void onButtonClick(ButtonInteractionEvent event) {
         GuildVoiceState memberVoiceState = requireNonNull(event.getMember()).getVoiceState();
         if (isNull(memberVoiceState) || !memberVoiceState.inAudioChannel()) {
             sendSelfDeletingMessage(event, "Du musst in einem Audio Channel sein um diesen Befehl zu nutzen.");
@@ -35,11 +35,12 @@ public class MusicStopCommand extends CommandBase {
         }
 
         if (Objects.equals(memberVoiceState.getChannel(), selfVoiceState.getChannel())) {
-            GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(guild);
+            GuildMusicManager musicManager = audioPlayerManager.getMusicManager(guild);
             musicManager.getAudioPlayer().stopTrack();
             musicManager.getQueue().clear();
             guild.getAudioManager().closeAudioConnection();
-            sendSelfDeletingMessage(event, "Musik wurde gestoppt.");
+            event.getMessage().delete().queue();
+            sendSelfDeletingMessage(event, "Du hast die Musik gestoppt.");
         }
     }
 }

@@ -1,6 +1,5 @@
 package de.rettichlp.shantybot.commands;
 
-import de.rettichlp.shantybot.common.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
@@ -9,6 +8,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 import static de.rettichlp.shantybot.ShantyBot.discordBotProperties;
+import static de.rettichlp.shantybot.ShantyBot.audioPlayerManager;
 import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletingMessage;
 import static java.lang.String.join;
 import static java.util.Objects.isNull;
@@ -46,6 +46,6 @@ public class MusicPlayCommand extends CommandBase {
         String potentialLink = linkOptionMapping.getAsString();
         String link = potentialLink.startsWith("http") ? potentialLink : ("ytmsearch:" + join(" ", potentialLink + " audio"));
 
-        PlayerManager.getInstance().loadAndPlay(event, link);
+        audioPlayerManager.loadAndPlay(event, link);
     }
 }
