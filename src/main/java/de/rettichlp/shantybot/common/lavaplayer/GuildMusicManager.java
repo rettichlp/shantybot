@@ -9,6 +9,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
 import lombok.Getter;
+import lombok.Setter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -29,6 +30,7 @@ import static net.dv8tion.jda.api.interactions.components.buttons.Button.seconda
 import static net.dv8tion.jda.api.interactions.components.buttons.Button.success;
 
 @Getter
+@Setter
 public class GuildMusicManager extends AudioEventAdapter implements AudioSendHandler {
 
     private final AudioPlayer audioPlayer;

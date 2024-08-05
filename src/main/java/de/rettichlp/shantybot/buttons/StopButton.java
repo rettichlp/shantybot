@@ -38,6 +38,7 @@ public class StopButton extends ButtonBase {
             GuildMusicManager musicManager = audioPlayerManager.getMusicManager(guild);
             musicManager.getAudioPlayer().stopTrack();
             musicManager.getQueue().clear();
+            musicManager.setNowPlayingEmbedId(null);
             guild.getAudioManager().closeAudioConnection();
             event.getMessage().delete().queue();
             sendSelfDeletingMessage(event, "Du hast die Musik gestoppt.");
