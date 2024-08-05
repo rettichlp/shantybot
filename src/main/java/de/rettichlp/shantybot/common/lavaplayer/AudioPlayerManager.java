@@ -1,7 +1,6 @@
 package de.rettichlp.shantybot.common.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
@@ -18,13 +17,12 @@ import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.regist
 import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletingMessage;
 import static java.util.Objects.requireNonNull;
 
-public class PlayerManager {
+public class AudioPlayerManager {
 
-    private static PlayerManager INSTANCE;
     private final Map<Long, GuildMusicManager> musicManagers;
-    private final AudioPlayerManager audioPlayerManager;
+    private final com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager audioPlayerManager;
 
-    public PlayerManager() {
+    public AudioPlayerManager() {
         this.musicManagers = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
 
@@ -86,12 +84,5 @@ public class PlayerManager {
                 sendSelfDeletingMessage(event, "Fehler beim Laden des Songs.");
             }
         });
-    }
-
-    public static PlayerManager getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new PlayerManager();
-        }
-        return INSTANCE;
     }
 }

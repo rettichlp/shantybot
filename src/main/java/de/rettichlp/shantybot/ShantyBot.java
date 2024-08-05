@@ -5,6 +5,7 @@ import de.rettichlp.shantybot.commands.MusicPlayCommand;
 import de.rettichlp.shantybot.commands.MusicSkipCommand;
 import de.rettichlp.shantybot.commands.MusicStopCommand;
 import de.rettichlp.shantybot.common.configuration.DiscordBotProperties;
+import de.rettichlp.shantybot.common.lavaplayer.AudioPlayerManager;
 import de.rettichlp.shantybot.listeners.GuildMemberListener;
 import de.rettichlp.shantybot.listeners.GuildMessageListener;
 import lombok.extern.log4j.Log4j2;
@@ -31,6 +32,7 @@ public class ShantyBot implements WebMvcConfigurer {
 
     public static JDA discordBot;
     public static DiscordBotProperties discordBotProperties;
+    public static AudioPlayerManager audioPlayerManager;
 
     public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = SpringApplication.run(ShantyBot.class, args);
@@ -66,5 +68,7 @@ public class ShantyBot implements WebMvcConfigurer {
                 slash("stop", "Beendet die Musikwiedergabe und leert die Warteschlange"),
                 slash("version", "Zeigt die aktuelle Version des ShantyBots")
         ).queue();
+
+        audioPlayerManager = new AudioPlayerManager();
     }
 }
