@@ -1,6 +1,8 @@
 package de.rettichlp.shantybot;
 
+import de.rettichlp.shantybot.buttons.PauseButton;
 import de.rettichlp.shantybot.buttons.QueueButton;
+import de.rettichlp.shantybot.buttons.ResumeButton;
 import de.rettichlp.shantybot.buttons.SkipButton;
 import de.rettichlp.shantybot.buttons.StopButton;
 import de.rettichlp.shantybot.commands.MusicPlayCommand;
@@ -58,7 +60,9 @@ public class ShantyBot implements WebMvcConfigurer {
                         new GuildMemberListener()
                 )
                 .addEventListeners(
+                        new PauseButton(),
                         new QueueButton(),
+                        new ResumeButton(),
                         new SkipButton(),
                         new StopButton()
                 )

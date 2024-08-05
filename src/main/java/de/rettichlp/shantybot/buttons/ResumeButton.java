@@ -1,5 +1,6 @@
 package de.rettichlp.shantybot.buttons;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import de.rettichlp.shantybot.common.lavaplayer.GuildMusicManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -13,10 +14,10 @@ import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletin
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
-public class SkipButton extends ButtonBase {
+public class ResumeButton extends ButtonBase {
 
-    public SkipButton() {
-        super("btn_skip");
+    public ResumeButton() {
+        super("btn_resume");
     }
 
     @Override
@@ -40,12 +41,14 @@ public class SkipButton extends ButtonBase {
         }
 
         GuildMusicManager musicManager = audioPlayerManager.getMusicManager(requireNonNull(event.getGuild()));
+        AudioPlayer audioPlayer = musicManager.getAudioPlayer();
 
-        if (musicManager.getQueue().isEmpty()) {
-            sendSelfDeletingMessage(event, "Die Warteschlange enthält keine weiteren Songs.");
+        if (!audioPlayer.isPaused()) {
+            sendSelfDeletingMessage(event, "Es ist gerade keine Musik pausiert.");
             return;
         }
 
-        musicManager.nextTrack();
+        audioPlayer.setPaused(false);
+        sendSelfDeletingMessage(event, "Musik fortgesetzt.");
     }
 }
