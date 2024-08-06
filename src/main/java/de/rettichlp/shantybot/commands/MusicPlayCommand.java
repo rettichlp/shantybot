@@ -8,11 +8,11 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 import static de.rettichlp.shantybot.ShantyBot.audioPlayerManager;
-import static de.rettichlp.shantybot.ShantyBot.discordBotProperties;
 import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletingMessage;
 import static java.lang.String.join;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
+import static java.util.Optional.ofNullable;
 
 public class MusicPlayCommand extends CommandBase {
 
@@ -34,7 +34,7 @@ public class MusicPlayCommand extends CommandBase {
             return;
         }
 
-        Guild guild = discordBotProperties.getGuild();
+        Guild guild = ofNullable(event.getGuild()).orElseThrow(() -> new NullPointerException("Guild is null"));
         GuildVoiceState selfVoiceState = guild.getSelfMember().getVoiceState();
         if (isNull(selfVoiceState) || !selfVoiceState.inAudioChannel()) {
             AudioManager audioManager = guild.getAudioManager();

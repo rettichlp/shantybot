@@ -4,10 +4,12 @@ import lombok.Getter;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import static de.rettichlp.shantybot.ShantyBot.discordBot;
+import static java.util.Optional.ofNullable;
 
 @Getter
 @Component
@@ -28,15 +30,22 @@ public class DiscordBotProperties {
     @Value("${discord.guild.roles.member-role}")
     private String memberRole;
 
+    @Nullable
     public Guild getGuild() {
         return discordBot.getGuildById(this.guildId);
     }
 
+    @Nullable
     public TextChannel getCommunityTextChannel() {
-        return getGuild().getTextChannelById(this.communityTextChannel);
+        return ofNullable(getGuild())
+                .map(guild -> guild.getTextChannelById(this.communityTextChannel))
+                .orElse(null);
     }
 
+    @Nullable
     public Role getMemberRole() {
-        return getGuild().getRoleById(this.memberRole);
+        return ofNullable(getGuild())
+                .map(guild -> guild.getRoleById(this.memberRole))
+                .orElse(null);
     }
 }
