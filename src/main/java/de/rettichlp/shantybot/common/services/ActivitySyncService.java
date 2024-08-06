@@ -1,18 +1,17 @@
 package de.rettichlp.shantybot.common.services;
 
 import lombok.extern.log4j.Log4j2;
-import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static de.rettichlp.shantybot.ShantyBot.discordBot;
 import static de.rettichlp.shantybot.ShantyBot.discordBotProperties;
-import static java.lang.System.currentTimeMillis;
-import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.Optional.ofNullable;
 import static net.dv8tion.jda.api.entities.Activity.playing;
 
+@EnableScheduling
 @Log4j2
 @Component
 public class ActivitySyncService {
@@ -22,18 +21,18 @@ public class ActivitySyncService {
             "mit %count% Spielern",
     };
 
-    public ActivitySyncService() {
-        long fiveMinutesInMillis = MINUTES.toMillis(5);
+    private int index = 0;
 
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                String activityString = ActivitySyncService.this.activities[(int) (currentTimeMillis() / fiveMinutesInMillis) % ActivitySyncService.this.activities.length];
+    @Scheduled(cron = "0 */2 * * * *") // every day, every 2 minutes
+    public void updateActivity() {
+        String newActivity = this.activities[this.index].replace("%count%", getMemberCount());
+        discordBot.getPresence().setActivity(playing(newActivity));
+        this.index = (this.index + 1) % this.activities.length;
+    }
 
-                Activity activity = playing(activityString.replace("%count%", String.valueOf(discordBotProperties.getGuild().getMemberCount())));
-                discordBot.getPresence().setActivity(activity);
-            }
-        }, fiveMinutesInMillis - currentTimeMillis() % fiveMinutesInMillis, fiveMinutesInMillis);
-        log.info("Activity synchronising: scheduled");
+    private String getMemberCount() {
+        return ofNullable(discordBotProperties.getGuild())
+                .map(Guild::getMemberCount)
+                .map(Object::toString).orElse("n/a");
     }
 }

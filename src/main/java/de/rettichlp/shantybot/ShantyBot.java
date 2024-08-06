@@ -15,7 +15,6 @@ import de.rettichlp.shantybot.listeners.GuildMessageListener;
 import lombok.extern.log4j.Log4j2;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -25,13 +24,13 @@ import static net.dv8tion.jda.api.Permission.MESSAGE_MANAGE;
 import static net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions.enabledFor;
 import static net.dv8tion.jda.api.interactions.commands.OptionType.INTEGER;
 import static net.dv8tion.jda.api.interactions.commands.OptionType.STRING;
-import static net.dv8tion.jda.api.interactions.commands.OptionType.USER;
 import static net.dv8tion.jda.api.interactions.commands.build.Commands.slash;
 import static net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MEMBERS;
 import static net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MESSAGES;
 import static net.dv8tion.jda.api.requests.GatewayIntent.GUILD_VOICE_STATES;
 import static net.dv8tion.jda.api.requests.GatewayIntent.MESSAGE_CONTENT;
 import static net.dv8tion.jda.api.utils.cache.CacheFlag.MEMBER_OVERRIDES;
+import static org.springframework.boot.SpringApplication.run;
 
 @Log4j2
 @SpringBootApplication
@@ -42,7 +41,7 @@ public class ShantyBot implements WebMvcConfigurer {
     public static AudioPlayerManager audioPlayerManager;
 
     public static void main(String[] args) throws InterruptedException {
-        ConfigurableApplicationContext context = SpringApplication.run(ShantyBot.class, args);
+        ConfigurableApplicationContext context = run(ShantyBot.class, args);
         discordBotProperties = context.getBean(DiscordBotProperties.class);
 
         long discordBotStartTime = currentTimeMillis();
@@ -74,14 +73,14 @@ public class ShantyBot implements WebMvcConfigurer {
                 )
                 .build().awaitReady();
 
-        discordBotProperties.getGuild().updateCommands().addCommands(
+        discordBot.getGuilds().forEach(guild -> guild.updateCommands().addCommands(
                 slash("play", "Lässt den Bot Deinen Channel betreten und die angegebene Musik spielen")
                         .addOption(STRING, "link", "Link oder Name des Songs", true),
                 slash("version", "Zeigt die aktuelle Version des ShantyBots"),
                 slash("löschen", "Löscht die angegebene Menge an Nachrichten (optional eines bestimmten Nutzers)")
                         .addOption(INTEGER, "anzahl", "Anzahl der Nachrichten, die gelöscht werden sollen", true)
                         .setDefaultPermissions(enabledFor(MESSAGE_MANAGE))
-        ).queue();
+        ).queue());
 
         audioPlayerManager = new AudioPlayerManager();
     }

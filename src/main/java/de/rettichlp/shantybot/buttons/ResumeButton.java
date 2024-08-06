@@ -9,10 +9,10 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import java.util.Objects;
 
 import static de.rettichlp.shantybot.ShantyBot.audioPlayerManager;
-import static de.rettichlp.shantybot.ShantyBot.discordBotProperties;
 import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletingMessage;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
+import static java.util.Optional.ofNullable;
 
 public class ResumeButton extends ButtonBase {
 
@@ -28,7 +28,7 @@ public class ResumeButton extends ButtonBase {
             return;
         }
 
-        Guild guild = discordBotProperties.getGuild();
+        Guild guild = ofNullable(event.getGuild()).orElseThrow(() -> new NullPointerException("Guild is null"));
         GuildVoiceState selfVoiceState = guild.getSelfMember().getVoiceState();
         if (isNull(selfVoiceState) || !selfVoiceState.inAudioChannel()) {
             sendSelfDeletingMessage(event, "Es wird gerade keine Musik gespielt!");
