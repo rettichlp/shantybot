@@ -73,14 +73,14 @@ public class ShantyBot implements WebMvcConfigurer {
                 )
                 .build().awaitReady();
 
-        discordBotProperties.getGuild().updateCommands().addCommands(
+        discordBot.getGuilds().forEach(guild -> guild.updateCommands().addCommands(
                 slash("play", "Lässt den Bot Deinen Channel betreten und die angegebene Musik spielen")
                         .addOption(STRING, "link", "Link oder Name des Songs", true),
                 slash("version", "Zeigt die aktuelle Version des ShantyBots"),
                 slash("löschen", "Löscht die angegebene Menge an Nachrichten (optional eines bestimmten Nutzers)")
                         .addOption(INTEGER, "anzahl", "Anzahl der Nachrichten, die gelöscht werden sollen", true)
                         .setDefaultPermissions(enabledFor(MESSAGE_MANAGE))
-        ).queue();
+        ).queue());
 
         audioPlayerManager = new AudioPlayerManager();
     }
