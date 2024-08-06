@@ -20,7 +20,7 @@ import static java.util.concurrent.CompletableFuture.allOf;
 @Component
 public class RoleSyncService {
 
-    @Scheduled(cron = "0 * * * * ?", zone = "Europe/Berlin") // every day at 0:00, 6:00, 12:00, 18:00 (UTC+1)
+    @Scheduled(cron = "0 0 */6 * * *", zone = "Europe/Berlin") // every day at 0:00, 6:00, 12:00, 18:00 (UTC+1)
     public void deleteOldLogEntries() {
         long startTime = currentTimeMillis();
         log.info("Discord role synchronising: started");

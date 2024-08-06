@@ -23,7 +23,7 @@ public class ActivitySyncService {
 
     private int index = 0;
 
-    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0 */2 * * * *") // every day, every 2 minutes
     public void updateActivity() {
         String newActivity = this.activities[this.index].replace("%count%", getMemberCount());
         discordBot.getPresence().setActivity(playing(newActivity));
