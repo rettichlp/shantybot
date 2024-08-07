@@ -20,13 +20,13 @@ public class IpCommand extends CommandBase {
         }
 
         String version = ofNullable(api.getVersion())
-                .map(s -> " und ist aktuell auf der Version " + s + ".")
+                .map(s -> " und ist aktuell auf der Version **" + s + "**.")
                 .orElse(".");
 
         String maintenance = api.isMaintenance() ? "\n⚠️ Aktuell sind Wartungsarbeiten!" : "";
 
         String offline = ofNullable(api.isOffline()).map(b -> b ? "\n⛔ Der Server ist aktuell offline!" : "").orElse("");
 
-        event.reply("ShantyTown hat die IP **shantytown.eu**%s%s%s" .formatted(version, maintenance, offline)).queue();
+        event.reply("ShantyTown hat die IP **[shantytown.eu](https://shantytown.eu/)**%s%s%s" .formatted(version, maintenance, offline)).queue();
     }
 }

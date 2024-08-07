@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import static de.rettichlp.shantybot.ShantyBot.api;
 import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletingMessage;
+import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 
 public class PlayersCommand extends CommandBase {
@@ -23,6 +24,9 @@ public class PlayersCommand extends CommandBase {
                 .map(s -> " von **" + s + "**")
                 .orElse("");
 
-        event.reply("Aktuell " + (api.getOnlinePlayers() == 1 ? "ist" : "sind") + " **%d**%s Spielern online." .formatted(api.getOnlinePlayers(), maxPlayers)).queue();
+        String areString = api.getOnlinePlayers() == 1 ? "ist" : "sind";
+        String playerString = (nonNull(api.getMaxPlayers()) && api.getMaxPlayers() != 1) ? "Spielern" : "Spieler";
+
+        event.reply("Aktuell %s **%d**%s %s online.".formatted(areString, api.getOnlinePlayers(), maxPlayers, playerString)).queue();
     }
 }

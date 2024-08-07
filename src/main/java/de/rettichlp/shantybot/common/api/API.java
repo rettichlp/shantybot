@@ -1,5 +1,6 @@
 package de.rettichlp.shantybot.common.api;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.Nullable;
@@ -38,7 +39,8 @@ public class API {
     @Nullable
     public String getVersion() {
         return ofNullable(getJsonObject())
-                .map(jsonObject -> jsonObject.get("version").getAsString())
+                .map(jsonObject -> jsonObject.get("version"))
+                .map(JsonElement::getAsString)
                 .orElse(null);
     }
 
@@ -51,8 +53,10 @@ public class API {
      */
     public boolean isMaintenance() {
         return ofNullable(getJsonObject())
-                .map(jsonObject -> jsonObject.get("motd").getAsJsonObject()
-                        .get("clean").getAsString().toLowerCase().contains("wartungsarbeiten"))
+                .map(jsonObject -> jsonObject.get("motd"))
+                .map(JsonElement::getAsJsonObject)
+                .map(jsonObject -> jsonObject.get("clean"))
+                .map(jsonElement -> jsonElement.getAsString().toLowerCase().contains("wartungsarbeiten"))
                 .orElse(false);
     }
 
@@ -106,7 +110,8 @@ public class API {
     @Nullable
     private JsonObject getPlayerJsonObject() {
         return ofNullable(getJsonObject())
-                .map(jsonObject -> jsonObject.get("players").getAsJsonObject())
+                .map(jsonObject -> jsonObject.get("players"))
+                .map(JsonElement::getAsJsonObject)
                 .orElse(null);
     }
 
