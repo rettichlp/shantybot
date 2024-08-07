@@ -22,6 +22,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static de.rettichlp.shantybot.common.services.UtilService.millisecondsToMMSS;
 import static java.nio.ByteBuffer.wrap;
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.dv8tion.jda.api.interactions.components.buttons.Button.danger;
 import static net.dv8tion.jda.api.interactions.components.buttons.Button.primary;
@@ -47,7 +48,9 @@ public class GuildMusicManager extends AudioEventAdapter implements AudioSendHan
     public void queue(Channel channel, AudioTrack audioTrack) {
         this.musicTextChannel = (TextChannel) channel;
         this.queue.add(audioTrack);
-        this.audioPlayer.startTrack(this.queue.poll(), true);
+        if (isNull(this.audioPlayer.getPlayingTrack())) {
+            this.audioPlayer.startTrack(this.queue.poll(), false);
+        }
     }
 
     public void nextTrack() {
