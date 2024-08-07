@@ -83,25 +83,26 @@ public class AudioPlayerManager {
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
                 List<AudioTrack> tracks = audioPlaylist.getTracks();
-                if (!tracks.isEmpty()) {
-                    String andMoreString = "";
-                    if (trackUrl.startsWith("ytmsearch:")) {
-                        musicManager.queue(event.getChannel(), tracks.getFirst());
-                    } else {
-                        tracks.forEach(audioTrack -> musicManager.queue(event.getChannel(), audioTrack));
-                        andMoreString = " und " + (audioPlaylist.getTracks().size() - 1) + " weitere";
-                    }
-
-                    AudioTrackInfo audioTrackInfo = tracks.getFirst().getInfo();
-                    MessageEmbed messageEmbed = new EmbedBuilder()
-                            .setColor(0xcece80)
-                            .addField("Musikwunsch von " + event.getUser().getEffectiveName(), "📬 **[" + audioTrackInfo.title + "](" + audioTrackInfo.uri + ")** von **" + audioTrackInfo.author + "** (" + millisecondsToMMSS(audioTrackInfo.length) + ")" + andMoreString, false)
-                            .build();
-
-                    event.replyEmbeds(messageEmbed).queue();
-                } else {
+                if (tracks.isEmpty()) {
                     sendSelfDeletingMessage(event, "Die Playlist ist leer!");
+                    return;
                 }
+
+                String andMoreString = "";
+                if (trackUrl.startsWith("ytmsearch:")) {
+                    musicManager.queue(event.getChannel(), tracks.getFirst());
+                } else {
+                    tracks.forEach(audioTrack -> musicManager.queue(event.getChannel(), audioTrack));
+                    andMoreString = " und " + (audioPlaylist.getTracks().size() - 1) + " weitere";
+                }
+
+                AudioTrackInfo audioTrackInfo = tracks.getFirst().getInfo();
+                MessageEmbed messageEmbed = new EmbedBuilder()
+                        .setColor(0xcece80)
+                        .addField("Musikwunsch von " + event.getUser().getEffectiveName(), "📬 **[" + audioTrackInfo.title + "](" + audioTrackInfo.uri + ")** von **" + audioTrackInfo.author + "** (" + millisecondsToMMSS(audioTrackInfo.length) + ")" + andMoreString, false)
+                        .build();
+
+                event.replyEmbeds(messageEmbed).queue();
             }
 
             @Override
