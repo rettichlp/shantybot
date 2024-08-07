@@ -7,7 +7,7 @@ import de.rettichlp.shantybot.buttons.SkipButton;
 import de.rettichlp.shantybot.buttons.StopButton;
 import de.rettichlp.shantybot.commands.DeleteMessageCommand;
 import de.rettichlp.shantybot.commands.IpCommand;
-import de.rettichlp.shantybot.commands.MusicPlayCommand;
+import de.rettichlp.shantybot.commands.MusicCommand;
 import de.rettichlp.shantybot.commands.PlayersCommand;
 import de.rettichlp.shantybot.commands.VersionCommand;
 import de.rettichlp.shantybot.common.api.API;
@@ -69,7 +69,7 @@ public class ShantyBot implements WebMvcConfigurer {
                 .addEventListeners(
                         new DeleteMessageCommand("löschen"),
                         new IpCommand("ip"),
-                        new MusicPlayCommand("play"),
+                        new MusicCommand("musik"),
                         new PlayersCommand("spieler"),
                         new VersionCommand("version")
                 )
@@ -92,7 +92,7 @@ public class ShantyBot implements WebMvcConfigurer {
                         .setDefaultPermissions(enabledFor(MESSAGE_MANAGE)),
 
                 slash("ip", "Zeigt die IP, Version und zusätzliche Informationen über den Minecraft Server"),
-                slash("play", "Lässt den Bot Deinen Channel betreten und die angegebene Musik spielen")
+                slash("musik", "Lässt den Bot Deinen Channel betreten und die angegebene Musik spielen")
                         .addOption(STRING, "link", "Link oder Name des Songs", true),
                 slash("spieler", "Zeigt die Anzahl der Spieler die gerade auf dem Minecraft Server sind"),
                 slash("version", "Zeigt die aktuelle Version des ShantyBots")
