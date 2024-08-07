@@ -67,7 +67,7 @@
             <version>5.0.2</version>
         </dependency>
 
-        <!-- https://github.com/lavalink-devs/lavaplayerk -->
+        <!-- https://github.com/lavalink-devs/lavaplayer -->
         <dependency>
             <groupId>dev.arbjerg</groupId>
             <artifactId>lavaplayer</artifactId>
