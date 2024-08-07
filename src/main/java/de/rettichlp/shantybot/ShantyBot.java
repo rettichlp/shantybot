@@ -5,6 +5,7 @@ import de.rettichlp.shantybot.buttons.QueueButton;
 import de.rettichlp.shantybot.buttons.ResumeButton;
 import de.rettichlp.shantybot.buttons.SkipButton;
 import de.rettichlp.shantybot.buttons.StopButton;
+import de.rettichlp.shantybot.commands.CommandsCommand;
 import de.rettichlp.shantybot.commands.DeleteMessageCommand;
 import de.rettichlp.shantybot.commands.MusicPlayCommand;
 import de.rettichlp.shantybot.commands.VersionCommand;
@@ -61,6 +62,7 @@ public class ShantyBot implements WebMvcConfigurer {
                 .disableCache(MEMBER_OVERRIDES) // Disable parts of the cache
                 .enableIntents(MESSAGE_CONTENT, GUILD_MEMBERS, GUILD_MESSAGES, GUILD_VOICE_STATES)
                 .addEventListeners(
+                        new CommandsCommand("befehle"),
                         new DeleteMessageCommand("löschen"),
                         new MusicPlayCommand("play"),
                         new VersionCommand("version")
@@ -79,12 +81,14 @@ public class ShantyBot implements WebMvcConfigurer {
                 .build().awaitReady();
 
         discordBot.getGuilds().forEach(guild -> guild.updateCommands().addCommands(
-                slash("play", "Lässt den Bot Deinen Channel betreten und die angegebene Musik spielen")
-                        .addOption(STRING, "link", "Link oder Name des Songs", true),
-                slash("version", "Zeigt die aktuelle Version des ShantyBots"),
                 slash("löschen", "Löscht die angegebene Menge an Nachrichten (optional eines bestimmten Nutzers)")
                         .addOption(INTEGER, "anzahl", "Anzahl der Nachrichten, die gelöscht werden sollen", true)
-                        .setDefaultPermissions(enabledFor(MESSAGE_MANAGE))
+                        .setDefaultPermissions(enabledFor(MESSAGE_MANAGE)),
+
+                slash("befehle", "Zeigt alle verfügbaren Befehle des ShantyBots"),
+                slash("musik", "Lässt den Bot Deinen Channel betreten und die angegebene Musik spielen")
+                        .addOption(STRING, "link", "Link oder Name des Songs", true),
+                slash("version", "Zeigt die aktuelle Version des ShantyBots")
         ).queue());
 
         audioPlayerManager = new AudioPlayerManager();
