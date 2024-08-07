@@ -14,6 +14,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import lombok.extern.log4j.Log4j2;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -31,6 +32,7 @@ import static de.rettichlp.shantybot.common.services.UtilService.millisecondsToM
 import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletingMessage;
 import static java.util.Objects.requireNonNull;
 
+@Log4j2
 public class AudioPlayerManager {
 
     private final Map<Long, GuildMusicManager> musicManagers;
@@ -117,6 +119,7 @@ public class AudioPlayerManager {
             @Override
             public void loadFailed(FriendlyException e) {
                 sendSelfDeletingMessage(event, "Fehler beim Laden des Songs!");
+                log.error("Fehler beim Laden des Songs!", e);
             }
         });
     }
