@@ -11,7 +11,7 @@
 
     <groupId>de.rettichlp</groupId>
     <artifactId>shantybot</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <packaging>jar</packaging>
 
     <name>ShantyBot</name>
@@ -27,6 +27,11 @@
         <repository>
             <id>jitpack</id>
             <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>arbjergDev</id>
+            <name>Lavalink Repository</name>
+            <url>https://maven.lavalink.dev/releases</url>
         </repository>
     </repositories>
 
@@ -56,6 +61,13 @@
             <groupId>dev.arbjerg</groupId>
             <artifactId>lavaplayer</artifactId>
             <version>2.2.1</version>
+        </dependency>
+
+        <!-- https://github.com/lavalink-devs/youtube-source -->
+        <dependency>
+            <groupId>dev.lavalink.youtube</groupId>
+            <artifactId>common</artifactId>
+            <version>1.5.2</version>
         </dependency>
     </dependencies>
 
