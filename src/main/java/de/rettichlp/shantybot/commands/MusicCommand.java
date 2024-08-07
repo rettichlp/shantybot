@@ -14,9 +14,9 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
-public class MusicPlayCommand extends CommandBase {
+public class MusicCommand extends CommandBase {
 
-    public MusicPlayCommand(String name) {
+    public MusicCommand(String name) {
         super(name);
     }
 
