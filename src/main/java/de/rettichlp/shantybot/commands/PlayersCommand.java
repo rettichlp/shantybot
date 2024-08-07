@@ -27,6 +27,6 @@ public class PlayersCommand extends CommandBase {
         String areString = api.getOnlinePlayers() == 1 ? "ist" : "sind";
         String playerString = (nonNull(api.getMaxPlayers()) && api.getMaxPlayers() != 1) ? "Spielern" : "Spieler";
 
-        event.reply("Aktuell %s **%d**%s %s online.".formatted(areString, api.getOnlinePlayers(), maxPlayers, playerString)).queue();
+        event.reply("Aktuell %s **%d**%s %s online." .formatted(areString, api.getOnlinePlayers(), maxPlayers, playerString)).queue();
     }
 }

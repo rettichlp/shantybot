@@ -36,7 +36,7 @@ public class RoleSyncService {
                         guild.addRoleToMember(member, memberRole).queue(success -> {
                             log.info("Discord role synchronising: Add role {} to member {}", memberRole.getName(), member.getEffectiveName());
                             future.complete(null);
-                            }, future::completeExceptionally);
+                        }, future::completeExceptionally);
                         return future;
                     })
                     .toList();
