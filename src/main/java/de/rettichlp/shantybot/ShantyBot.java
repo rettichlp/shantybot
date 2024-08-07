@@ -19,7 +19,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import static java.lang.Runtime.getRuntime;
 import static java.lang.System.currentTimeMillis;
+import static java.util.Optional.ofNullable;
 import static net.dv8tion.jda.api.Permission.MESSAGE_MANAGE;
 import static net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions.enabledFor;
 import static net.dv8tion.jda.api.interactions.commands.OptionType.INTEGER;
@@ -47,6 +49,9 @@ public class ShantyBot implements WebMvcConfigurer {
         long discordBotStartTime = currentTimeMillis();
         log.info("Discord bot starting");
         startDiscordBot();
+
+        getRuntime().addShutdownHook(new Thread(() -> ofNullable(discordBot).ifPresent(JDA::shutdown)));
+
         log.info("Discord bot started in {}ms", currentTimeMillis() - discordBotStartTime);
     }
 
