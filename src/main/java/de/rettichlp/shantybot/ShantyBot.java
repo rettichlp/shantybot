@@ -7,8 +7,11 @@ import de.rettichlp.shantybot.buttons.SkipButton;
 import de.rettichlp.shantybot.buttons.StopButton;
 import de.rettichlp.shantybot.commands.CommandsCommand;
 import de.rettichlp.shantybot.commands.DeleteMessageCommand;
-import de.rettichlp.shantybot.commands.MusicPlayCommand;
+import de.rettichlp.shantybot.commands.IpCommand;
+import de.rettichlp.shantybot.commands.MusicCommand;
+import de.rettichlp.shantybot.commands.PlayersCommand;
 import de.rettichlp.shantybot.commands.VersionCommand;
+import de.rettichlp.shantybot.common.api.API;
 import de.rettichlp.shantybot.common.configuration.DiscordBotProperties;
 import de.rettichlp.shantybot.common.lavaplayer.AudioPlayerManager;
 import de.rettichlp.shantybot.listeners.GuildMemberListener;
@@ -42,6 +45,7 @@ public class ShantyBot implements WebMvcConfigurer {
     public static JDA discordBot;
     public static DiscordBotProperties discordBotProperties;
     public static AudioPlayerManager audioPlayerManager;
+    public static API api;
 
     public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = run(ShantyBot.class, args);
@@ -54,6 +58,8 @@ public class ShantyBot implements WebMvcConfigurer {
         getRuntime().addShutdownHook(new Thread(() -> ofNullable(discordBot).ifPresent(JDA::shutdown)));
 
         log.info("Discord bot started in {}ms", currentTimeMillis() - discordBotStartTime);
+
+        api = new API();
     }
 
     private static void startDiscordBot() throws InterruptedException {
@@ -64,7 +70,9 @@ public class ShantyBot implements WebMvcConfigurer {
                 .addEventListeners(
                         new CommandsCommand("befehle"),
                         new DeleteMessageCommand("löschen"),
-                        new MusicPlayCommand("play"),
+                        new IpCommand("ip"),
+                        new MusicCommand("musik"),
+                        new PlayersCommand("spieler"),
                         new VersionCommand("version")
                 )
                 .addEventListeners(
@@ -86,8 +94,10 @@ public class ShantyBot implements WebMvcConfigurer {
                         .setDefaultPermissions(enabledFor(MESSAGE_MANAGE)),
 
                 slash("befehle", "Zeigt alle verfügbaren Befehle des ShantyBots"),
+                slash("ip", "Zeigt die IP, Version und zusätzliche Informationen über den Minecraft Server"),
                 slash("musik", "Lässt den Bot Deinen Channel betreten und die angegebene Musik spielen")
                         .addOption(STRING, "link", "Link oder Name des Songs", true),
+                slash("spieler", "Zeigt die Anzahl der Spieler die gerade auf dem Minecraft Server sind"),
                 slash("version", "Zeigt die aktuelle Version des ShantyBots")
         ).queue());
 
