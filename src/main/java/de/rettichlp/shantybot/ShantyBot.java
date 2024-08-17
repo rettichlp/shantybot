@@ -102,5 +102,9 @@ public class ShantyBot implements WebMvcConfigurer {
         ).queue());
 
         audioPlayerManager = new AudioPlayerManager();
+
+        ofNullable(discordBotProperties.getGuild())
+                .ifPresentOrElse(guild -> log.info("Discord bot connected to the guild requested by the properties: {}", guild.getName()),
+                        () -> log.error("Discord bot cannot create connection to guild requested by the properties"));
     }
 }
