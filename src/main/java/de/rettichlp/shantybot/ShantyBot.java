@@ -53,6 +53,12 @@ public class ShantyBot implements WebMvcConfigurer {
         ConfigurableApplicationContext context = run(ShantyBot.class, args);
         discordBotProperties = context.getBean(DiscordBotProperties.class);
 
+        discordLogging = DiscordLogging.getBuilder()
+                .botToken(discordBotProperties.getLoggingToken())
+                .guildId(discordBotProperties.getLoggingGuildId())
+                .textChannelId(discordBotProperties.getLoggingTextChannel())
+                .build();
+
         long discordBotStartTime = currentTimeMillis();
         log.info("Discord bot starting");
         startDiscordBot();
@@ -62,12 +68,6 @@ public class ShantyBot implements WebMvcConfigurer {
         log.info("Discord bot started in {}ms", currentTimeMillis() - discordBotStartTime);
 
         api = new API();
-
-        discordLogging = DiscordLogging.getBuilder()
-                .botToken(discordBotProperties.getLoggingToken())
-                .guildId(discordBotProperties.getLoggingGuildId())
-                .textChannelId(discordBotProperties.getLoggingTextChannel())
-                .build();
     }
 
     private static void startDiscordBot() throws InterruptedException {
