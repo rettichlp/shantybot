@@ -30,6 +30,15 @@ public class DiscordBotProperties {
     @Value("${discord.guild.roles.member-role}")
     private String memberRole;
 
+    @Value("${logging.bot.token}")
+    private String loggingToken;
+
+    @Value("${logging.guild.id}")
+    private String loggingGuildId;
+
+    @Value("${logging.guild.text-channel}")
+    private String loggingTextChannel;
+
     @Nullable
     public Guild getGuild() {
         return discordBot.getGuildById(this.guildId);

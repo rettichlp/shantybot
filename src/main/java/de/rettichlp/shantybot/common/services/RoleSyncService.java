@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static de.rettichlp.shantybot.ShantyBot.discordBotProperties;
+import static de.rettichlp.shantybot.ShantyBot.discordLogging;
 import static java.lang.System.currentTimeMillis;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
@@ -43,8 +44,12 @@ public class RoleSyncService {
 
             allOf(futures.toArray(new CompletableFuture[0])).thenRun(() -> log.info("Discord role synchronising: finished in {}ms", currentTimeMillis() - startTime)).exceptionally(error -> {
                 log.error("Discord role synchronising: failed - {}", error.getMessage());
+                discordLogging.error("Discord role synchronising: failed - " + error.getMessage());
                 return null;
             });
-        }, () -> log.warn("Discord role synchronising: Skipped! Guild is null"));
+        }, () -> {
+            log.warn("Discord role synchronising: Skipped! Guild is null");
+            discordLogging.warn("Discord role synchronising: Skipped! Guild is null");
+        });
     }
 }
