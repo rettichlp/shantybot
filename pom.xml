@@ -11,7 +11,7 @@
 
     <groupId>de.rettichlp</groupId>
     <artifactId>shantybot</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.0</version>
     <packaging>jar</packaging>
 
     <name>ShantyBot</name>
@@ -32,6 +32,11 @@
             <id>arbjergDev</id>
             <name>Lavalink Repository</name>
             <url>https://maven.lavalink.dev/releases</url>
+        </repository>
+        <repository>
+            <id>rettichlp-repository</id>
+            <name>RettichLP Repository</name>
+            <url>https://maven.rettichlp.de/releases</url>
         </repository>
     </repositories>
 
@@ -79,6 +84,13 @@
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>common</artifactId>
             <version>1.6.0</version>
+        </dependency>
+
+        <!-- https://maven.rettichlp.de/#/releases/de/rettichlp/dclogging -->
+        <dependency>
+            <groupId>de.rettichlp</groupId>
+            <artifactId>dclogging</artifactId>
+            <version>1.1.6</version>
         </dependency>
     </dependencies>
 
