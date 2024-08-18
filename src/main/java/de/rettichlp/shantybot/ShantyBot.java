@@ -1,5 +1,6 @@
 package de.rettichlp.shantybot;
 
+import de.rettichlp.dclogging.logging.DiscordLogging;
 import de.rettichlp.shantybot.buttons.PauseButton;
 import de.rettichlp.shantybot.buttons.QueueButton;
 import de.rettichlp.shantybot.buttons.ResumeButton;
@@ -46,6 +47,7 @@ public class ShantyBot implements WebMvcConfigurer {
     public static DiscordBotProperties discordBotProperties;
     public static AudioPlayerManager audioPlayerManager;
     public static API api;
+    public static DiscordLogging discordLogging;
 
     public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = run(ShantyBot.class, args);
@@ -60,6 +62,12 @@ public class ShantyBot implements WebMvcConfigurer {
         log.info("Discord bot started in {}ms", currentTimeMillis() - discordBotStartTime);
 
         api = new API();
+
+        discordLogging = DiscordLogging.getBuilder()
+                .botToken(discordBotProperties.getLoggingToken())
+                .guildId(discordBotProperties.getLoggingGuildId())
+                .textChannelId(discordBotProperties.getLoggingTextChannel())
+                .build();
     }
 
     private static void startDiscordBot() throws InterruptedException {
@@ -104,7 +112,9 @@ public class ShantyBot implements WebMvcConfigurer {
         audioPlayerManager = new AudioPlayerManager();
 
         ofNullable(discordBotProperties.getGuild())
-                .ifPresentOrElse(guild -> log.info("Discord bot connected to the guild requested by the properties: {}", guild.getName()),
-                        () -> log.error("Discord bot cannot create connection to guild requested by the properties"));
+                .ifPresentOrElse(guild -> log.info("Discord bot connected to the guild requested by the properties: {}", guild.getName()), () -> {
+                    log.error("Discord bot cannot create connection to guild requested by the properties");
+                    discordLogging.error("Discord bot cannot create connection to guild requested by the properties");
+                });
     }
 }
