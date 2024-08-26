@@ -45,8 +45,11 @@ With these permissions the bot has access to following activities:
 
 The bot provides the following slash commands:
 
-| Command                          | Description                                                           |
-|----------------------------------|-----------------------------------------------------------------------|
-| `/löschen` `amount`              | Deletes the last \<amount> messages in the current channel            |
-| `/play` `search query` or `link` | Searches for a song on YouTube or via link (YouTube, Soundcloud, ...) |
-| `/version`                       | Shows the current version of the bot                                  |
+| Command                           | Description                                                                 |
+|-----------------------------------|-----------------------------------------------------------------------------|
+| `/löschen` `amount`               | Deletes the last \<amount> messages in the current channel                  |
+| `/befehle`                        | Shows all available commands of the ShantyBot                               |
+| `/ip`                             | Shows the IP, version and additional information about the Minecraft server |
+| `/musik` `search query` or `link` | Searches for a song on YouTube or via link (YouTube, Soundcloud, ...)       |
+| `/spieler`                        | Shows the number of players currently on the Minecraft server               |
+| `/version`                        | Shows the current version of the bot                                        |
