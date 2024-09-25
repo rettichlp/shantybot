@@ -44,7 +44,7 @@ public class RoleSyncService {
 
             allOf(futures.toArray(new CompletableFuture[0])).thenRun(() -> log.info("Discord role synchronising: finished in {}ms", currentTimeMillis() - startTime)).exceptionally(error -> {
                 log.error("Discord role synchronising: failed - {}", error.getMessage());
-                discordLogging.error("Discord role synchronising: failed - " + error.getMessage());
+                discordLogging.error("Discord role synchronising: failed - {}", error.getMessage());
                 return null;
             });
         }, () -> {

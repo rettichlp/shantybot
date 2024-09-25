@@ -61,7 +61,7 @@ public class ShantyBot implements WebMvcConfigurer {
 
         discordBotProperties = context.getBean(DiscordBotProperties.class);
 
-        discordLogging = DiscordLogging.getBuilder()
+        discordLogging = DiscordLogging.builder()
                 .botToken(discordBotProperties.getLoggingToken())
                 .guildId(discordBotProperties.getLoggingGuildId())
                 .textChannelId(discordBotProperties.getLoggingTextChannel())
