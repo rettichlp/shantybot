@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.2</version>
+        <version>3.3.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>de.rettichlp</groupId>
     <artifactId>shantybot</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
     <packaging>jar</packaging>
 
     <name>ShantyBot</name>
@@ -69,28 +69,28 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.2</version>
+            <version>5.1.1</version>
         </dependency>
 
         <!-- https://github.com/lavalink-devs/lavaplayer -->
         <dependency>
             <groupId>dev.arbjerg</groupId>
             <artifactId>lavaplayer</artifactId>
-            <version>2.2.1</version>
+            <version>2.2.2</version>
         </dependency>
 
         <!-- https://github.com/lavalink-devs/youtube-source -->
         <dependency>
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>common</artifactId>
-            <version>1.6.0</version>
+            <version>1.8.2</version>
         </dependency>
 
         <!-- https://maven.rettichlp.de/#/releases/de/rettichlp/dclogging -->
         <dependency>
             <groupId>de.rettichlp</groupId>
             <artifactId>dclogging</artifactId>
-            <version>1.1.6</version>
+            <version>2.0.0</version>
         </dependency>
     </dependencies>
 

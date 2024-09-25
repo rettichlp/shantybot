@@ -26,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static java.lang.Runtime.getRuntime;
 import static java.lang.System.currentTimeMillis;
+import static java.lang.Thread.setDefaultUncaughtExceptionHandler;
 import static java.util.Optional.ofNullable;
 import static net.dv8tion.jda.api.Permission.MESSAGE_MANAGE;
 import static net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions.enabledFor;
@@ -51,9 +52,16 @@ public class ShantyBot implements WebMvcConfigurer {
 
     public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = run(ShantyBot.class, args);
+
+        setDefaultUncaughtExceptionHandler((thread, exception) -> {
+            String exceptionMessage = exception.getMessage();
+            log.error(exceptionMessage, exception);
+            discordLogging.error(exceptionMessage, exception);
+        });
+
         discordBotProperties = context.getBean(DiscordBotProperties.class);
 
-        discordLogging = DiscordLogging.getBuilder()
+        discordLogging = DiscordLogging.builder()
                 .botToken(discordBotProperties.getLoggingToken())
                 .guildId(discordBotProperties.getLoggingGuildId())
                 .textChannelId(discordBotProperties.getLoggingTextChannel())
