@@ -72,7 +72,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           source: "target/shantybot.jar"
-          target: "/home/shantybot"
+          target: "/home/shantybot/data"
           timeout: 120s
           strip_components: 1
 
@@ -84,8 +84,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            cd /home/shantybot
-            ./run.sh
+            cd /home/shantybot/data
+            docker compose up -d --build
 
       - name: Create release notes
         env:
