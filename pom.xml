@@ -11,7 +11,7 @@
 
     <groupId>de.rettichlp</groupId>
     <artifactId>shantybot</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <packaging>jar</packaging>
 
     <name>ShantyBot</name>
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.1.1</version>
+            <version>5.1.2</version>
         </dependency>
 
         <!-- https://github.com/lavalink-devs/lavaplayer -->
@@ -83,7 +83,7 @@
         <dependency>
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>common</artifactId>
-            <version>1.8.2</version>
+            <version>1.8.3</version>
         </dependency>
 
         <!-- https://maven.rettichlp.de/#/releases/de/rettichlp/dclogging -->

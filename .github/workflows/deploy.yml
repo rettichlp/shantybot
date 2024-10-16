@@ -53,17 +53,17 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           source: "target/shantybot.jar"
-          target: "/home/shantybot"
+          target: "/home/shantybot/data"
           timeout: 120s
           strip_components: 1
 
       - name: Restart application
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: rettichlp.de
           username: shantybot
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            cd /home/shantybot
-            ./run.sh
+            cd /home/shantybot/data
+            docker compose up -d --build
