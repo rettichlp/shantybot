@@ -58,7 +58,7 @@ jobs:
           strip_components: 1
 
       - name: Restart application
-        uses: appleboy/ssh-action@v1.1.0
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: rettichlp.de
           username: shantybot
