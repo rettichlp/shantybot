@@ -83,7 +83,7 @@
         <dependency>
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>common</artifactId>
-            <version>1.11.3</version>
+            <version>1.18.0</version>
         </dependency>
 
         <!-- https://maven.rettichlp.de/#/releases/de/rettichlp/dclogging -->
