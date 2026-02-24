@@ -25,18 +25,9 @@
 
     <repositories>
         <repository>
-            <id>jitpack</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
             <id>arbjergDev</id>
             <name>Lavalink Repository</name>
             <url>https://maven.lavalink.dev/releases</url>
-        </repository>
-        <repository>
-            <id>rettichlp-repository</id>
-            <name>RettichLP Repository</name>
-            <url>https://maven.rettichlp.de/releases</url>
         </repository>
     </repositories>
 
@@ -84,13 +75,6 @@
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>common</artifactId>
             <version>1.18.0</version>
-        </dependency>
-
-        <!-- https://maven.rettichlp.de/#/releases/de/rettichlp/dclogging -->
-        <dependency>
-            <groupId>de.rettichlp</groupId>
-            <artifactId>dclogging</artifactId>
-            <version>2.1.0</version>
         </dependency>
     </dependencies>
 
