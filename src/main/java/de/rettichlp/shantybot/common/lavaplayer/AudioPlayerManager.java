@@ -28,7 +28,6 @@ import static com.sedmelluq.discord.lavaplayer.container.MediaContainerRegistry.
 import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerLocalSource;
 import static com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerRemoteSources;
 import static com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceManager.createDefault;
-import static de.rettichlp.shantybot.ShantyBot.discordLogging;
 import static de.rettichlp.shantybot.common.services.UtilService.millisecondsToMMSS;
 import static de.rettichlp.shantybot.common.services.UtilService.sendSelfDeletingMessage;
 import static java.util.Objects.requireNonNull;
@@ -121,7 +120,6 @@ public class AudioPlayerManager {
             public void loadFailed(FriendlyException e) {
                 sendSelfDeletingMessage(event, "Fehler beim Laden des Songs!");
                 log.error("Error while loading track", e);
-                discordLogging.error("Error while loading track", e);
             }
         });
     }

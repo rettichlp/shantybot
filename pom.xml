@@ -5,38 +5,29 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.0</version>
+        <version>4.0.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>de.rettichlp</groupId>
     <artifactId>shantybot</artifactId>
-    <version>1.5.0</version>
+    <version>1.6.0</version>
     <packaging>jar</packaging>
 
     <name>ShantyBot</name>
     <description>Discord application of ShantyTown</description>
 
     <properties>
-        <java.version>21</java.version>
-        <maven.compiler.target>21</maven.compiler.target>
+        <java.version>25</java.version>
+        <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
         <repository>
-            <id>jitpack</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
             <id>arbjergDev</id>
             <name>Lavalink Repository</name>
             <url>https://maven.lavalink.dev/releases</url>
-        </repository>
-        <repository>
-            <id>rettichlp-repository</id>
-            <name>RettichLP Repository</name>
-            <url>https://maven.rettichlp.de/releases</url>
         </repository>
     </repositories>
 
@@ -54,7 +45,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.36</version>
+            <version>1.18.42</version>
             <scope>provided</scope>
         </dependency>
 
@@ -62,41 +53,50 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.11.0</version>
+            <version>2.13.2</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/net.dv8tion/JDA -->
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.2.1</version>
+            <version>6.3.1</version>
         </dependency>
 
         <!-- https://github.com/lavalink-devs/lavaplayer -->
         <dependency>
             <groupId>dev.arbjerg</groupId>
             <artifactId>lavaplayer</artifactId>
-            <version>2.2.2</version>
+            <version>2.2.6</version>
         </dependency>
 
         <!-- https://github.com/lavalink-devs/youtube-source -->
         <dependency>
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>common</artifactId>
-            <version>1.8.3</version>
-        </dependency>
-
-        <!-- https://maven.rettichlp.de/#/releases/de/rettichlp/dclogging -->
-        <dependency>
-            <groupId>de.rettichlp</groupId>
-            <artifactId>dclogging</artifactId>
-            <version>2.0.0</version>
+            <version>1.18.0</version>
         </dependency>
     </dependencies>
 
     <build>
         <finalName>shantybot</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.15.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.42</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

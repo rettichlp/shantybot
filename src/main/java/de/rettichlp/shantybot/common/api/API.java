@@ -10,7 +10,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import static com.google.gson.JsonParser.parseString;
-import static de.rettichlp.shantybot.ShantyBot.discordLogging;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
@@ -148,7 +147,6 @@ public class API {
                     HttpStatusCode statusCode = ex.getStatusCode();
                     if (!statusCode.is4xxClientError()) {
                         log.error("Request failed with code {}: {}", statusCode, responseBodyAsString);
-                        discordLogging.error("Request failed with code {}: {}", statusCode, responseBodyAsString);
                     }
 
                     return just(ResponseEntity.status(statusCode).body(responseBodyAsString));
