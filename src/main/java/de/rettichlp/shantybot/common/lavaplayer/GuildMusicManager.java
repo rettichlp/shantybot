@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -24,10 +25,10 @@ import static de.rettichlp.shantybot.common.services.UtilService.millisecondsToM
 import static java.nio.ByteBuffer.wrap;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
-import static net.dv8tion.jda.api.interactions.components.buttons.Button.danger;
-import static net.dv8tion.jda.api.interactions.components.buttons.Button.primary;
-import static net.dv8tion.jda.api.interactions.components.buttons.Button.secondary;
-import static net.dv8tion.jda.api.interactions.components.buttons.Button.success;
+import static net.dv8tion.jda.api.components.buttons.Button.danger;
+import static net.dv8tion.jda.api.components.buttons.Button.primary;
+import static net.dv8tion.jda.api.components.buttons.Button.secondary;
+import static net.dv8tion.jda.api.components.buttons.Button.success;
 
 @Getter
 @Setter
@@ -60,26 +61,26 @@ public class GuildMusicManager extends AudioEventAdapter implements AudioSendHan
     @Override
     public void onPlayerPause(AudioPlayer player) {
         if (nonNull(this.nowPlayingEmbedId)) {
-            this.musicTextChannel.retrieveMessageById(this.nowPlayingEmbedId).queue(message -> message.editMessageEmbeds(message.getEmbeds().getFirst()).setActionRow(
+            this.musicTextChannel.retrieveMessageById(this.nowPlayingEmbedId).queue(message -> message.editMessageEmbeds(message.getEmbeds().getFirst()).setComponents(ActionRow.of(
                     primary("btn_queue", "📑"),
                     success("btn_resume", "▶️"),
                     secondary("btn_pause", "⏸️"),
                     primary("btn_skip", "⏭️"),
                     danger("btn_stop", "⏹️")
-            ).queue());
+            )).queue());
         }
     }
 
     @Override
     public void onPlayerResume(AudioPlayer player) {
         if (nonNull(this.nowPlayingEmbedId)) {
-            this.musicTextChannel.retrieveMessageById(this.nowPlayingEmbedId).queue(message -> message.editMessageEmbeds(message.getEmbeds().getFirst()).setActionRow(
+            this.musicTextChannel.retrieveMessageById(this.nowPlayingEmbedId).queue(message -> message.editMessageEmbeds(message.getEmbeds().getFirst()).setComponents(ActionRow.of(
                     primary("btn_queue", "📑"),
                     secondary("btn_resume", "▶️"),
                     primary("btn_pause", "⏸️"),
                     primary("btn_skip", "⏭️"),
                     danger("btn_stop", "⏹️")
-            ).queue());
+            )).queue());
         }
     }
 
@@ -99,13 +100,13 @@ public class GuildMusicManager extends AudioEventAdapter implements AudioSendHan
                 .setThumbnail(audioTrackInfo.artworkUrl)
                 .build();
 
-        this.musicTextChannel.sendMessageEmbeds(messageEmbed).addActionRow(
+        this.musicTextChannel.sendMessageEmbeds(messageEmbed).addComponents(ActionRow.of(
                 primary("btn_queue", "📑"),
                 (player.isPaused() ? success("btn_resume", "▶️") : secondary("btn_resume", "▶️")),
                 (player.isPaused() ? secondary("btn_pause", "⏸️") : primary("btn_pause", "⏸️")),
                 primary("btn_skip", "⏭️"),
                 danger("btn_stop", "⏹️")
-        ).queue(message -> this.nowPlayingEmbedId = message.getId());
+        )).queue(message -> this.nowPlayingEmbedId = message.getId());
     }
 
     @Override
