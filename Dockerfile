@@ -2,7 +2,7 @@
 # Multi-stage build: Stage 1 builds the jar from source, Stage 2 is the slim runtime image
 
 # ---------- Stage 1: Build ----------
-FROM maven:3.9-eclipse-temurin-25 AS build
+FROM maven:3.10-eclipse-temurin-25 AS build
 
 WORKDIR /build
 
